@@ -3,3 +3,5 @@
 pypi:
   versions:
     - version_tag
+  packages:
+    - {}

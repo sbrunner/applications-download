@@ -33,7 +33,9 @@ ApplicationConfiguration = TypedDict(
         # | The created tile name.
         # |
         # | The name of the final tile we will create
-        "to-file-name": str,
+        # |
+        # | Required property
+        "to-file-name": Required[str],
         # | The tile name to get in the tar file.
         "tar-file-name": str,
         # | Additional files.
