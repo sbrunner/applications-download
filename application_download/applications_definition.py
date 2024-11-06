@@ -3,6 +3,7 @@ Automatically generated file from a JSON schema.
 """
 
 from typing import Dict, List, Literal, TypedDict, Union
+from typing_extensions import Required
 
 
 # | Application configuration.
@@ -11,6 +12,12 @@ from typing import Dict, List, Literal, TypedDict, Union
 ApplicationConfiguration = TypedDict(
     "ApplicationConfiguration",
     {
+        # | Description.
+        # |
+        # | The description of the application
+        # |
+        # | Required property
+        "description": Required[str],
         # | URL pattern.
         # |
         # | URL pattern, to be used for files that didn't come from GitHub release, available arguments: {version}
@@ -29,14 +36,20 @@ ApplicationConfiguration = TypedDict(
         "to-file-name": str,
         # | The tile name to get in the tar file.
         "tar-file-name": str,
+        # | Additional files.
+        # |
+        # | Additional files to be created
+        "additional-files": Dict[str, str],
         # | The commands to run after the tile creation.
         "finish-commands": List[List[str]],
+        # | The command to get the version.
+        "version-command": List[str],
     },
     total=False,
 )
 
 
-Configuration = Dict[str, "ApplicationConfiguration"]
+ApplicationsConfiguration = Dict[str, "ApplicationConfiguration"]
 """
 Applications configuration.
 

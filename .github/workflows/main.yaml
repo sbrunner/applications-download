@@ -9,15 +9,9 @@ on:
       - '*'
   pull_request:
 
-permissions:
-  packages: write
-
-env:
-  HAS_SECRETS: ${{ secrets.HAS_SECRETS }}
-
 jobs:
-  main:
-    name: Continuous integration
+  pre-commit:
+    name: Pre commit checks
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
@@ -27,17 +21,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: camptocamp/initialise-gopass-summon-action@v2
-        with:
-          ci-gpg-private-key: ${{secrets.CI_GPG_PRIVATE_KEY}}
-          github-gopass-ci-token: ${{secrets.GOPASS_CI_GITHUB_TOKEN}}
-          patterns: pypi
-        if: env.HAS_SECRETS == 'HAS_SECRETS'
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python3 -m pip install --requirement=requirements.txt
+      - run: python3 -m pip install $(grep pre-commit== requirements.txt)
 
       - uses: actions/cache@v4
         with:
@@ -54,6 +41,23 @@ jobs:
           retention-days: 1
         if: failure()
 
+  main:
+    name: Continuous integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    needs: pre-commit
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python3 -m pip install --requirement=.github/requirements.txt
+      - run: python3 -m pip install --requirement=requirements.txt
+
       - name: Print the environment
         run: c2cciutils-env
         env:
@@ -61,6 +65,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: poetry install
+
       - name: Prospector
         run: poetry run prospector --die-on-tool-error --output-format=pylint
 

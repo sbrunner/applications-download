@@ -10,6 +10,11 @@
     "description": "An application configuration",
     "type": "object",
     "properties": {
+      "description": {
+        "title": "Description",
+        "description": "The description of the application",
+        "type": "string"
+      },
       "url-pattern": {
         "title": "URL pattern",
         "description": "URL pattern, to be used for files that didn't come from GitHub release, available arguments: {version}",
@@ -35,6 +40,14 @@
         "title": "The tile name to get in the tar file",
         "type": "string"
       },
+      "additional-files": {
+        "title": "Additional files",
+        "description": "Additional files to be created",
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
       "finish-commands": {
         "title": "The commands to run after the tile creation",
         "type": "array",
@@ -44,7 +57,15 @@
             "type": "string"
           }
         }
+      },
+      "version-command": {
+        "title": "The command to get the version",
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
-    }
+    },
+    "required": ["description"]
   }
 }

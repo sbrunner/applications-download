@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 import pkgutil
-import subprocess
+import subprocess  # nosec
 import sys
 import tarfile
 import urllib
@@ -17,7 +17,8 @@ import jsonschema_validator
 import requests
 import ruamel.yaml
 import yaml
-from c2cciutils import applications_definition
+
+from application_download import applications_definition
 
 
 def main() -> None:
@@ -80,11 +81,11 @@ def main() -> None:
 
 
 def _validate_applications(
-    applications_data: str, application_filename, schema: dict[str, Any]
+    applications_data: str, application_filename: str, schema: dict[str, Any]
 ) -> applications_definition.ApplicationsConfiguration:
     """Validate the applications configuration."""
-    yaml = ruamel.yaml.YAML()
-    applications = yaml.load(applications_data)
+    ru_yaml = ruamel.yaml.YAML()
+    applications = ru_yaml.load(applications_data)  # nosec
 
     errors, _ = jsonschema_validator.validate(application_filename, applications, schema)
     if errors:
@@ -92,10 +93,10 @@ def _validate_applications(
         sys.stderr.write("\n")
         sys.exit(1)
 
-    return applications
+    return cast(applications_definition.ApplicationsConfiguration, applications)
 
 
-_CONFIG_FOLDER = os.join(
+_CONFIG_FOLDER = os.path.join(
     os.getenv("XDG_CONFIG_HOME") or os.path.expanduser(os.path.join("~", ".config")), "application_download"
 )
 
@@ -111,7 +112,7 @@ def _load_applications(applications_file: Optional[str]) -> applications_definit
     package_applications_data = pkgutil.get_data("application_download", "applications.yaml")
     assert package_applications_data is not None
     package_applications = _validate_applications(
-        package_applications_data, "<application_download>/applications.yaml", schema
+        package_applications_data.decode(), "<application_download>/applications.yaml", schema
     )
     applications.update(package_applications)
 
@@ -138,10 +139,11 @@ def _load_applications(applications_file: Optional[str]) -> applications_definit
     return applications
 
 
-def _load_versions(versions_filename: str) -> dict[str, str]:
+def _load_versions(versions_filename: Optional[str] = None) -> dict[str, str]:
     """Load the versions from the file."""
-    with open(versions_filename, encoding="utf-8") as version_file:
-        return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
+    if versions_filename is not None:
+        with open(versions_filename, encoding="utf-8") as version_file:
+            return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
 
     if os.path.exists("applications-versions.yaml"):
         with open("applications-versions.yaml", encoding="utf-8") as version_file:
@@ -197,7 +199,7 @@ def _download_applications(
                 "version_quote": version_quote,
                 "short_version": version.lstrip("v"),
             }
-            response = requests.get(
+            response = requests.get(  # nosec
                 app.get(
                     "url-pattern",
                     f"https://github.com/{key}/releases/download/{version_quote}/"
@@ -218,18 +220,17 @@ def _download_applications(
             with open(os.path.join(bin_path, app["to-file-name"]), "wb") as destination_file:
                 destination_file.write(content)
 
-            for filename, content in app.get("additional-files", {}).items():
-                with open(os.path.join(bin_path, filename), "w", encoding="utf-8") as destination_file:
-                    destination_file.write(content)
+            for additional_filename, additional_content in app.get("additional-files", {}).items():
+                with open(
+                    os.path.join(bin_path, additional_filename), "w", encoding="utf-8"
+                ) as additional_file:
+                    additional_file.write(additional_content)
 
             for command in app.get("finish-commands", []):
-                subprocess.run(command, check=True, cwd=bin_path)
+                subprocess.run(command, check=True, cwd=bin_path)  # nosec
 
-            if "version_command" in app:
-                subprocess.run(app["version_command"], check=True, cwd=bin_path)
-
-            if "success-args" in app:
-                subprocess.run([app["to-file-name"]] + app["success-args"], check=True, cwd=bin_path)
+            if "version-command" in app:
+                subprocess.run(app["version-command"], check=True, cwd=bin_path)  # nosec
 
             if app.get("remove-after-success", False):
                 os.remove(os.path.join(bin_path, app["to-file-name"]))

@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sbrunner/jsonschema-gentypes/refs/heads/master/jsonschema_gentypes/schema.json
+
 headers: |
   """
   Automatically generated file from a JSON schema.
@@ -11,9 +13,11 @@ pre_commit:
   arguments:
     - --color=never
 
+python_version: '3.9'
+
 generate:
   - source: application_download/applications-schema.json
-    destination: application_download/applications.py
-    root_name: Configuration
+    destination: application_download/applications_definition.py
+    root_name: ApplicationsConfiguration
     api_arguments:
       additional_properties: Only explicit
