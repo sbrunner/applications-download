@@ -22,7 +22,7 @@
     },
     /** Do update on the schema present in the ci/config.yaml */
     {
-      fileMatch: ['^ci/config\\.yaml$'],
+      fileMatch: ['^ci/config\\.yaml$', '^.github/publish\\.yaml$', '^jsonschema-gentypes\\.yaml$'],
       matchStrings: [
         '.*https://raw\\.githubusercontent\\.com/(?<depName>[^\\s]+)/(?<currentValue>[0-9\\.]+)/.*',
       ],
@@ -34,6 +34,10 @@
       matchStrings: [' python-version: [\'"](?<currentValue>[0-9\\.]+)[\'"]'],
       datasourceTemplate: 'python-version',
       depNameTemplate: 'python',
+    },
+    {
+      fileMatch: ['^download-versions.yaml$'],
+      matchStrings: ['(?<depName>.*): (?<currentValue>.*) # (?<datasource>.*)'],
     },
   ],
   packageRules: [
@@ -88,6 +92,10 @@
       matchFileNames: ['pyproject.toml'],
       enabled: false,
       matchDepNames: ['python'],
+    },
+    {
+      matchPackageNames: ['JOSM/josm'],
+      versioning: 'regex:^[a-zA-Z -]*(?<major>\\d+)?[a-zA-Z -]*$',
     },
     /** Packages published very recently are not pushed to stabilization branches for security reasons */
     {
