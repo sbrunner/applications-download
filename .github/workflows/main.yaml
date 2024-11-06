@@ -1,0 +1,77 @@
+name: Continuous integration
+
+on:
+  push:
+    branches:
+      - master
+      - '[0-9]+.[0-9]+'
+    tags:
+      - '*'
+  pull_request:
+
+permissions:
+  packages: write
+
+env:
+  HAS_SECRETS: ${{ secrets.HAS_SECRETS }}
+
+jobs:
+  main:
+    name: Continuous integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: camptocamp/initialise-gopass-summon-action@v2
+        with:
+          ci-gpg-private-key: ${{secrets.CI_GPG_PRIVATE_KEY}}
+          github-gopass-ci-token: ${{secrets.GOPASS_CI_GITHUB_TOKEN}}
+          patterns: pypi
+        if: env.HAS_SECRETS == 'HAS_SECRETS'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python3 -m pip install --requirement=requirements.txt
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: "pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}\npre-commit-"
+      - run: pre-commit run --all-files
+      - run: git diff --exit-code --patch > /tmp/pre-commit.patch || true
+        if: failure()
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Apply pre-commit fix.patch
+          path: /tmp/pre-commit.patch
+          retention-days: 1
+        if: failure()
+
+      - name: Print the environment
+        run: c2cciutils-env
+        env:
+          GITHUB_EVENT: ${{ toJson(github) }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: poetry install
+      - name: Prospector
+        run: poetry run prospector --die-on-tool-error --output-format=pylint
+
+      - name: Publish
+        run: tag-publish
+
+      - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch || true
+        if: failure()
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Update dpkg versions list.patch
+          path: /tmp/dpkg-versions.patch
+          retention-days: 1
+        if: failure()

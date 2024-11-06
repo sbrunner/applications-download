@@ -1,0 +1,257 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/camptocamp/c2cciutils/master/c2cciutils/schema-applications.json
+
+k3d-io/k3d:
+  description: k3d is a lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in Docker.
+  get-file-name: k3d-linux-amd64
+  to-file-name: k3d
+  finish-commands:
+    - - chmod
+      - +x
+      - k3d
+    - - k3d
+      - --version
+k3s-io/k3s:
+  description: Lightweight Kubernetes
+  get-file-name: k3s
+  to-file-name: k3s
+  finish-commands:
+    - - chmod
+      - +x
+      - k3s
+    - - k3s
+      - --version
+derailed/k9s:
+  description: K9s provides a terminal UI to interact with your Kubernetes clusters.
+  type: tar
+  get-file-name: k9s_Linux_amd64.tar.gz
+  tar-file-name: k9s
+  to-file-name: k9s
+  finish-commands:
+    - - chmod
+      - +x
+      - k9s
+    - - k9s
+      - version
+kubernetes/kubernetes:
+  description: Kubernetes
+  url-pattern: https://dl.k8s.io/release/{version}/bin/linux/amd64/kubectl
+  to-file-name: kubectl
+helm/helm:
+  description: Helm helps you manage Kubernetes applications
+  type: tar
+  url-pattern: https://get.helm.sh/helm-{version}-linux-amd64.tar.gz
+  tar-file-name: linux-amd64/helm
+  to-file-name: helm3
+  finish-commands:
+    - - chmod
+      - +x
+      - helm3
+  version-command:
+    - helm3
+    - version
+snyk/cli:
+  description: Snyk helps you find, fix and monitor known vulnerabilities in your dependencies
+  get-file-name: snyk-linux
+  to-file-name: snyk
+  finish-commands:
+    - - chmod
+      - +x
+      - snyk
+  version-command:
+    - snyk
+    - --version
+helm/chart-releaser:
+  description: Helm Chart Releaser
+  get-file-name: chart-releaser_{short_version}_linux_amd64.tar.gz
+  type: tar
+  tar-file-name: cr
+  to-file-name: cr
+  finish-commands:
+    - - chmod
+      - +x
+      - cr
+  version-command:
+    - cr
+    - version
+mozilla/sops:
+  description: Sops is an editor of encrypted files
+  get-file-name: sops_{short_version}_amd64.deb
+  to-file-name: sops.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - dpkg
+      - --install
+      - sops.deb
+  version-command:
+    - sops
+    - --version
+rclone/rclone:
+  description: Rclone is a command line program to manage files on cloud storage
+  get-file-name: rclone-{version}-linux-amd64.deb
+  to-file-name: rclone.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - dpkg
+      - --install
+      - rclone.deb
+  version-command:
+    - rclone
+    - --version
+aquasecurity/trivy:
+  description: Trivy is a simple and comprehensive vulnerability scanner for containers
+  get-file-name: trivy_{short_version}_Linux-64bit.deb
+  to-file-name: trivy.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - dpkg
+      - --install
+      - trivy.deb
+  version-command:
+    - trivy
+    - --version
+gopasspw/gopass:
+  description: Gopass is a password manager for teams
+  get-file-name: gopass_{short_version}_linux_amd64.deb
+  #get-file-name: gopass-{short_version}-linux-amd64.deb
+  to-file-name: gopass.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - dpkg
+      - --install
+      - gopass.deb
+  version-command:
+    - gopass
+    - --version
+JOSM/josm:
+  description: JOSM is an extensible editor for OpenStreetMap (OSM)
+  url-pattern: https://josm.openstreetmap.de/josm-tested.jar
+  to-file-name: josm.jar
+  additional-files:
+    json: |
+      #!/bin/bash -eux
+      java -jar josm.jar
+  finish-commands:
+    - - chmod
+      - +x
+      - josm
+  version-command:
+    - josm
+    - --version
+hadolint/hadolint:
+  description: Hadolint is a Dockerfile linter
+  get-file-name: hadolint-Linux-x86_64
+  to-file-name: hadolint
+  finish-commands:
+    - - chmod
+      - +x
+      - hadolint
+  version-command:
+    - hadolint
+    - --version
+cli/cli:
+  description: GitHub CLI
+  get-file-name: gh_{short_version}_linux_amd64.deb
+  to-file-name: gh.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - dpkg
+      - --install
+      - gh.deb
+  version-command:
+    - gh
+    - --version
+vim/vim:
+  description: Vim is a highly configurable text editor built to enable efficient text editing
+  url-pattern: https://github.com/vim/vim/archive/{version}.tar.gz
+  to-file-name: vim.tar.gz
+  remove-after-success: true
+  finish-commands:
+    - - tar
+      - xvfz
+      - vim.tar.gz
+    - - build-vim
+Azure/kubelogin:
+  description: Azure Kubernetes Service (AKS) kubeconfig credential helper
+  get-file-name: kubelogin-linux-amd64.zip
+  to-file-name: kubelogin-linux-amd64.zip
+  remove-after-success: true
+  finish-commands:
+    - - unzip
+      - kubelogin-linux-amd64.zip
+    - - mv
+      - bin/linux_amd64/kubelogin
+      - kubelogin
+    - - rmdir
+      - bin/linux_amd64
+    - - rm
+      - -rf
+      - bin
+    - - chmod
+      - +x
+      - kubelogin
+  version-command:
+    - kubelogin
+    - --version
+transifex/cli:
+  description: Transifex Command-line Client
+  get-file-name: tx-linux-amd64.tar.gz
+  tar-file-name: tx
+  to-file-name: tx
+  finish-commands:
+    - - chmod
+      - +x
+      - tx
+  version-command:
+    - tx
+    - --version
+google/google-java-format:
+  description: Google Java Format
+  get-file-name: google-java-format-{short_version}-all-deps.jar
+  to-file-name: google-java-format-all-deps.jar
+  version-command:
+    - google-java-format
+    - --version
+docker/compose:
+  description: Docker Compose
+  get-file-name: docker-compose-linux-x86_64
+  to-file-name: docker-compose
+  finish-commands:
+    - - chmod
+      - +x
+      - docker-compose
+    - - mkdir
+      - --parents
+      - ../.docker/cli-plugins
+    - - cp
+      - docker-compose
+      - ../.docker/cli-plugins/docker-compose
+    - - docker-compose
+      - --version
+  version-command:
+    - docker
+    - compose
+    - version
+kubescape/kubescape:
+  description: Kubescape is the first tool for testing if Kubernetes is deployed securely as defined in Kubernetes Hardening Guidance by to NSA and CISA
+  get-file-name: kubescape-ubuntu-latest
+  to-file-name: kubescape
+  finish-commands:
+    - - chmod
+      - +x
+      - kubescape
+  version-command:
+    - kubescape
+    - version
+nvm-sh/nvm:
+  description: Node Version Manager
+  url-pattern: https://raw.githubusercontent.com/nvm-sh/nvm/{version}/install.sh
+  to-file-name: nvm-install.sh
+  remove-after-success: true
+  finish-commands:
+    - - bash
+      - nvm-install.sh

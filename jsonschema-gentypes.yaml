@@ -1,0 +1,19 @@
+headers: |
+  """
+  Automatically generated file from a JSON schema.
+  """
+
+pre_commit:
+  enabled: true
+  hooks_skip:
+    - jsonschema-gentypes
+    - shellcheck
+  arguments:
+    - --color=never
+
+generate:
+  - source: application_download/applications-schema.json
+    destination: application_download/applications.py
+    root_name: Configuration
+    api_arguments:
+      additional_properties: Only explicit

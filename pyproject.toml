@@ -1,0 +1,100 @@
+[tool.ruff]
+line-length = 110
+target-version = "py39"
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+extend-select = [
+  "UP", # pyupgrade
+  "F", # Pyflakes
+  "E", "W", # Pycodestyle
+  "I", # isort
+  "S", # flake8-bandit
+  "SIM", # flake8-simplify
+  "B", # flake8-bugbear
+  # pydocstyle
+  "D213", "D214", "D215", "D405", "D406", "D407", "D408", "D409", "D410", "D411", "D413", "D416", "D417",
+]
+ignore= [
+  "S101", # Use of assert detected
+  "S607", # start-process-with-partial-path
+  "S603", # subprocess-without-shell-equals-true
+]
+exclude = ["application_download/applications.py"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict = true
+
+[tool.poetry]
+name = "application-download"
+version = "0.0.0"
+description = "Tools used to publish Python packages, Docker images and Helm charts for GitHub tag and branch"
+readme = "README.md"
+authors = ["Camptocamp <info@camptocamp.com>"]
+keywords = ["ci"]
+repository = "https://github.com/camptocamp/application-download"
+license = "FreeBSD"
+packages = [{ include = "application_download" }]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Typing :: Typed",
+]
+include = [
+    "application_download/py.typed",
+    "application_download/*.json",
+    "application_download/*.yaml",
+]
+
+[tool.poetry.scripts]
+applications-download = "application_download.cli:main"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+requests = "2.32.3"
+twine = "5.1.1"
+PyYAML = "6.0.2"
+id = "1.4.0"
+security-md = "0.2.3"
+
+[tool.poetry.group.dev.dependencies]
+prospector = { version = "1.12.1", extras = ["with-bandit", "with-mypy", "with-pyroma"] }
+prospector-profile-duplicated = "1.6.0"
+prospector-profile-utils = "1.9.1"
+types-requests = "2.32.0.20241016"
+types-pyyaml = "6.0.12.20240917"
+
+[build-system]
+requires = [
+    "poetry-core>=1.0.0",
+    "poetry-dynamic-versioning[plugin]>=0.19.0",
+    "poetry-plugin-tweak-dependencies-version",
+    "poetry-plugin-drop-python-upper-constraint",
+]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+pattern = "^(?P<base>\\d+(\\.\\d+)*)"
+format-jinja = """
+{%- if env.get("VERSION_TYPE") == "version_branch" -%}
+{{serialize_pep440(bump_version(base, 1 if env.get("IS_MASTER") == "TRUE" else 2), dev=distance)}}
+{%- elif distance == 0 -%}
+{{serialize_pep440(base)}}
+{%- else -%}
+{{serialize_pep440(bump_version(base), dev=distance)}}
+{%- endif -%}
+"""
+
+[tool.poetry-plugin-tweak-dependencies-version]
+default = "major"

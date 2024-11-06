@@ -1,0 +1,3 @@
+"""
+Application download main module.
+"""

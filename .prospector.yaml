@@ -1,0 +1,18 @@
+inherits:
+  - utils:base
+  - utils:no-design-checks
+  - utils:fix
+  - duplicated
+
+doc-warnings: true
+
+ignore-paths:
+  - application_download/configuration.py
+
+pylint:
+  disable:
+    - missing-module-docstring
+
+bandit:
+  options:
+    config: .bandit.yaml
