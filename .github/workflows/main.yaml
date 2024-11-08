@@ -9,6 +9,9 @@ on:
       - '*'
   pull_request:
 
+permissions:
+  id-token: write
+
 jobs:
   pre-commit:
     name: Pre commit checks
