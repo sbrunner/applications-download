@@ -20,7 +20,7 @@ ignore= [
   "S607", # start-process-with-partial-path
   "S603", # subprocess-without-shell-equals-true
 ]
-exclude = ["application_download/applications_definition.py"]
+exclude = ["applications_download/applications_definition.py"]
 
 [tool.mypy]
 python_version = "3.9"
@@ -31,15 +31,15 @@ warn_return_any = true
 strict = true
 
 [tool.poetry]
-name = "application-download"
+name = "applications-download"
 version = "0.0.0"
 description = "Tools used to publish Python packages, Docker images and Helm charts for GitHub tag and branch"
 readme = "README.md"
 authors = ["Camptocamp <info@camptocamp.com>"]
 keywords = ["ci"]
-repository = "https://github.com/camptocamp/application-download"
+repository = "https://github.com/camptocamp/applications-download"
 license = "FreeBSD"
-packages = [{ include = "application_download" }]
+packages = [{ include = "applications_download" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
@@ -50,13 +50,13 @@ classifiers = [
     "Typing :: Typed",
 ]
 include = [
-    "application_download/py.typed",
-    "application_download/*.json",
-    "application_download/*.yaml",
+    "applications_download/py.typed",
+    "applications_download/*.json",
+    "applications_download/*.yaml",
 ]
 
 [tool.poetry.scripts]
-applications-download = "application_download.cli:main"
+applications-download = "applications_download.cli:main"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
@@ -64,6 +64,7 @@ requests = "2.32.3"
 PyYAML = "6.0.2"
 "ruamel.yaml" = "0.18.6"
 jsonschema-validator-new  = "0.1.0"
+#jsonschema-validator  = "0.1.0"
 
 [tool.poetry.group.dev.dependencies]
 prospector = { version = "1.12.1", extras = ["with-bandit", "with-mypy", "with-pyroma"] }

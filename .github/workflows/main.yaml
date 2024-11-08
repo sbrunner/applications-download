@@ -62,15 +62,25 @@ jobs:
         run: c2cciutils-env
         env:
           GITHUB_EVENT: ${{ toJson(github) }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: poetry install
 
       - name: Prospector
         run: poetry run prospector --die-on-tool-error --output-format=pylint
 
+      - name: Test applications list
+        run: poetry run applications-download --list
+      - name: Test list installed applications
+        run: poetry run applications-download --installed
+      - name: Test applications download
+        run: poetry run applications-download
+      - name: Test list installed applications
+        run: poetry run applications-download --installed
+
       - name: Publish
         run: tag-publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch || true
         if: failure()

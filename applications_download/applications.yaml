@@ -131,9 +131,9 @@ JOSM/josm:
   url-pattern: https://josm.openstreetmap.de/josm-tested.jar
   to-file-name: josm.jar
   additional-files:
-    json: |
+    josm: |
       #!/bin/bash -eux
-      java -jar josm.jar
+      java -jar josm.jar "$@"
   finish-commands:
     - - chmod
       - +x
@@ -165,16 +165,6 @@ cli/cli:
   version-command:
     - gh
     - --version
-vim/vim:
-  description: Vim is a highly configurable text editor built to enable efficient text editing
-  url-pattern: https://github.com/vim/vim/archive/{version}.tar.gz
-  to-file-name: vim.tar.gz
-  remove-after-success: true
-  finish-commands:
-    - - tar
-      - xvfz
-      - vim.tar.gz
-    - - build-vim
 Azure/kubelogin:
   description: Azure Kubernetes Service (AKS) kubeconfig credential helper
   get-file-name: kubelogin-linux-amd64.zip
@@ -206,13 +196,21 @@ transifex/cli:
     - - chmod
       - +x
       - tx
-  version-command:
-    - tx
-    - --version
+  # version-command:
+  #   - tx
+  #   - --version
 google/google-java-format:
   description: Google Java Format
   get-file-name: google-java-format-{short_version}-all-deps.jar
   to-file-name: google-java-format-all-deps.jar
+  additional-files:
+    google-java-format: |
+      #!/bin/bash -eux
+      java -jar google-java-format-all-deps.jar "$@"
+  finish-commands:
+    - - chmod
+      - +x
+      - google-java-format
   version-command:
     - google-java-format
     - --version

@@ -7,7 +7,7 @@ inherits:
 doc-warnings: true
 
 ignore-paths:
-  - application_download/configuration.py
+  - applications_download/configuration.py
 
 pylint:
   disable:

@@ -16,8 +16,8 @@ pre_commit:
 python_version: '3.9'
 
 generate:
-  - source: application_download/applications-schema.json
-    destination: application_download/applications_definition.py
+  - source: applications_download/applications-schema.json
+    destination: applications_download/applications_definition.py
     root_name: ApplicationsConfiguration
     api_arguments:
       additional_properties: Only explicit
