@@ -11,6 +11,7 @@ aquasecurity/trivy: v0.55.2 # github-releases
 gopasspw/gopass: v1.15.14 # github-releases
 JOSM/josm: 19207-tested # github-releases
 hadolint/hadolint: v2.12.0 # github-releases
+koalaman/shellcheck: v0.10.0 # github-releases
 transifex/cli: v1.6.17 # github-releases
 cli/cli: v2.58.0 # github-releases
 Azure/kubelogin: v0.1.4 # github-releases

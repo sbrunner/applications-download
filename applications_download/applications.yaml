@@ -152,6 +152,18 @@ hadolint/hadolint:
   version-command:
     - hadolint
     - --version
+koalaman/shellcheck:
+  description: ShellCheck is a static analysis tool for shell scripts
+  get-file-name: shellcheck-v{short_version}.linux.x86_64.tar.xz
+  tar-file-name: shellcheck-v{short_version}/shellcheck
+  to-file-name: shellcheck
+  finish-commands:
+    - - chmod
+      - +x
+      - shellcheck
+  version-command:
+    - shellcheck
+    - --version
 cli/cli:
   description: GitHub CLI
   get-file-name: gh_{short_version}_linux_amd64.deb
