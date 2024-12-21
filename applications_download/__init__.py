@@ -65,7 +65,9 @@ def load_applications_file(
     load_applications_data(applications_data, applications_filename, applications)
 
 
-def load_applications(applications_file: Optional[str]=None) -> applications_definition.ApplicationsConfiguration:
+def load_applications(
+    applications_file: Optional[str] = None,
+) -> applications_definition.ApplicationsConfiguration:
     """Load the applications from the file."""
     applications: applications_definition.ApplicationsConfiguration = {}
 
