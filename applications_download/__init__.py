@@ -168,7 +168,7 @@ def download_applications(
 
         if app.get("type") == "tar":
             with tarfile.open(fileobj=BytesIO(response.content)) as tar:
-                extracted_file = tar.extractfile(app["tar-file-name"])
+                extracted_file = tar.extractfile(app["tar-file-name"].format(**params))
                 assert extracted_file is not None
                 content = extracted_file.read()
         else:
