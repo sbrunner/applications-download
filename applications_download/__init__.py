@@ -1,6 +1,4 @@
-"""
-Application download main module.
-"""
+"""Application download main module."""
 
 import json
 import os
@@ -137,7 +135,6 @@ def download_applications(
         os.makedirs(bin_path)
 
     installed_applications = get_installed_applications()
-    dirty = False
 
     for key, version in versions.items():
         if key not in applications:
@@ -192,8 +189,7 @@ def download_applications(
             os.remove(os.path.join(bin_path, app["to-file-name"]))
 
         installed_applications[key] = version
-        dirty = True
-    if dirty:
+
         if not os.path.exists(_CONFIG_FOLDER):
             os.makedirs(_CONFIG_FOLDER)
         with open(os.path.join(_CONFIG_FOLDER, "installed.yaml"), "w", encoding="utf-8") as installed_file:
