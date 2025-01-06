@@ -2,17 +2,9 @@ inherits:
   - utils:base
   - utils:no-design-checks
   - utils:fix
+  - utils:unsafe
   - duplicated
-
-doc-warnings: true
 
 ignore-paths:
   - applications_download/configuration.py
-
-pylint:
-  disable:
-    - missing-module-docstring
-
-bandit:
-  options:
-    config: .bandit.yaml
+  - applications_download/applications_definition.py
