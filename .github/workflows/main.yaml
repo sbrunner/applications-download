@@ -87,6 +87,17 @@ jobs:
       - name: Prospector
         run: poetry run prospector --die-on-tool-error --output-format=pylint
 
+      - run: git diff --exit-code --patch > /tmp/prospector.patch || true
+        if: failure()
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Apply Prospector fix.patch
+          path: /tmp/prospector.patch
+          retention-days: 1
+        if: failure()
+      - run: git reset --hard
+        if: failure()
+
       - name: Test applications list
         run: poetry run applications-download --list
       - name: Test list installed applications
