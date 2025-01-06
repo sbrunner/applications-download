@@ -44,13 +44,28 @@ jobs:
           retention-days: 1
         if: failure()
 
+      # Mark as Success
+      - run: touch SUCCESS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pre-commit-success
+          path: SUCCESS
+          retention-days: 1
+
   main:
     name: Continuous integration
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     needs: pre-commit
+    if: always()
 
     steps:
+      # Test pre-commit Success
+      - uses: actions/download-artifact@v4
+        with:
+          name: pre-commit-success
+          destination: /tmp
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
