@@ -2,7 +2,7 @@
 Automatically generated file from a JSON schema.
 """
 
-from typing import Dict, List, Literal, TypedDict, Union
+from typing import Literal, TypedDict, Union
 from typing_extensions import Required
 
 
@@ -41,17 +41,17 @@ ApplicationConfiguration = TypedDict(
         # | Additional files.
         # |
         # | Additional files to be created
-        "additional-files": Dict[str, str],
+        "additional-files": dict[str, str],
         # | The commands to run after the tile creation.
-        "finish-commands": List[List[str]],
+        "finish-commands": list[list[str]],
         # | The command to get the version.
-        "version-command": List[str],
+        "version-command": list[str],
     },
     total=False,
 )
 
 
-ApplicationsConfiguration = Dict[str, "ApplicationConfiguration"]
+ApplicationsConfiguration = dict[str, "ApplicationConfiguration"]
 """
 Applications configuration.
 
