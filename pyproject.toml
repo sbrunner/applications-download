@@ -67,7 +67,7 @@ jsonschema-validator-new  = "0.3.2"
 #jsonschema-validator  = "0.1.0"
 
 [tool.poetry.group.dev.dependencies]
-prospector = { version = "1.13.3", extras = ["with-bandit", "with-mypy", "with-pyroma"] }
+prospector = { version = "1.13.3", extras = ["with-bandit", "with-mypy", "with-pyroma", "with_ruff"] }
 prospector-profile-duplicated = "1.10.4"
 prospector-profile-utils = "1.15.1"
 types-requests = "2.32.0.20241016"
