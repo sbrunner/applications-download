@@ -62,7 +62,7 @@ applications-download = "applications_download.cli:main"
 python = ">=3.9,<4.0"
 requests = "2.32.3"
 PyYAML = "6.0.2"
-"ruamel.yaml" = "0.18.6"
+"ruamel.yaml" = "0.18.10"
 jsonschema-validator-new  = "0.1.0"
 #jsonschema-validator  = "0.1.0"
 
@@ -71,7 +71,7 @@ prospector = { version = "1.12.1", extras = ["with-bandit", "with-mypy", "with-p
 prospector-profile-duplicated = "1.6.0"
 prospector-profile-utils = "1.9.1"
 types-requests = "2.32.0.20241016"
-types-pyyaml = "6.0.12.20240917"
+types-pyyaml = "6.0.12.20241230"
 
 [build-system]
 requires = [
