@@ -154,6 +154,7 @@ hadolint/hadolint:
     - --version
 koalaman/shellcheck:
   description: ShellCheck is a static analysis tool for shell scripts
+  type: tar
   get-file-name: shellcheck-v{short_version}.linux.x86_64.tar.xz
   tar-file-name: shellcheck-v{short_version}/shellcheck
   to-file-name: shellcheck
@@ -201,6 +202,7 @@ Azure/kubelogin:
     - --version
 transifex/cli:
   description: Transifex Command-line Client
+  type: tar
   get-file-name: tx-linux-amd64.tar.gz
   tar-file-name: tx
   to-file-name: tx
