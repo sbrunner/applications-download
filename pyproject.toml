@@ -22,14 +22,8 @@ ignore= [
 ]
 exclude = ["applications_download/applications_definition.py"]
 
-[tool.mypy]
-python_version = "3.9"
-ignore_missing_imports = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_return_any = true
-strict = true
-
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 [tool.poetry]
 name = "applications-download"
 version = "0.0.0"
@@ -41,13 +35,19 @@ repository = "https://github.com/camptocamp/applications-download"
 license = "FreeBSD"
 packages = [{ include = "applications_download" }]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Console",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Typing :: Typed",
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Typing :: Typed',
 ]
 include = [
     "applications_download/py.typed",
@@ -67,7 +67,7 @@ jsonschema-validator-new  = "0.3.2"
 #jsonschema-validator  = "0.1.0"
 
 [tool.poetry.group.dev.dependencies]
-prospector = { version = "1.13.3", extras = ["with-bandit", "with-mypy", "with-pyroma", "with_ruff"] }
+prospector = { version = "1.13.3", extras = ["with-bandit", "with-mypy", "with-pyroma", "with_ruff", "with_pyroma"] }
 prospector-profile-duplicated = "1.10.4"
 prospector-profile-utils = "1.15.1"
 types-requests = "2.32.0.20241016"
@@ -87,8 +87,10 @@ enable = true
 vcs = "git"
 pattern = "^(?P<base>\\d+(\\.\\d+)*)"
 format-jinja = """
-{%- if env.get("VERSION_TYPE") == "version_branch" -%}
-{{serialize_pep440(bump_version(base, 1 if env.get("IS_MASTER") == "TRUE" else 2), dev=distance)}}
+{%- if env.get("VERSION_TYPE") == "default_branch" -%}
+{{serialize_pep440(bump_version(base, 1), dev=distance)}}
+{%- elif env.get("VERSION_TYPE") == "stabilization_branch" -%}
+{{serialize_pep440(bump_version(base, 2), dev=distance)}}
 {%- elif distance == 0 -%}
 {{serialize_pep440(base)}}
 {%- else -%}
