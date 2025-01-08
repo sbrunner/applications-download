@@ -238,10 +238,10 @@ docker/compose:
       - docker-compose
     - - mkdir
       - --parents
-      - ../.docker/cli-plugins
+      - ../../.docker/cli-plugins
     - - cp
       - docker-compose
-      - ../.docker/cli-plugins/docker-compose
+      - ../../.docker/cli-plugins/docker-compose
     - - docker-compose
       - --version
   version-command:
