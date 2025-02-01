@@ -1,2 +1,2 @@
-c2cciutils==1.7.1
-tag-publish==0.13.0
+c2cciutils==1.7.3
+tag-publish==0.13.3
