@@ -1,10 +1,10 @@
 # https://docs.renovatebot.com/modules/datasource/#github-releases-datasource
-k3d-io/k3d: v5.7.5 # github-releases
-k3s-io/k3s: v1.31.4+k3s1 # github-releases
+k3d-io/k3d: v5.8.1 # github-releases
+k3s-io/k3s: v1.32.0+k3s1 # github-releases
 derailed/k9s: v0.32.7 # github-releases
-helm/helm: v3.16.4 # github-releases
+helm/helm: v3.17.0 # github-releases
 helm/chart-releaser: v1.7.0 # github-releases
-snyk/cli: v1.1294.3 # github-releases
+snyk/cli: v1.1295.2 # github-releases
 kubernetes/kubernetes: v1.32.1 # github-releases
 mozilla/sops: v3.9.3 # github-releases
 aquasecurity/trivy: v0.58.2 # github-releases
@@ -13,10 +13,10 @@ JOSM/josm: 19277-tested # github-releases
 hadolint/hadolint: v2.12.0 # github-releases
 koalaman/shellcheck: v0.10.0 # github-releases
 transifex/cli: v1.6.17 # github-releases
-cli/cli: v2.64.0 # github-releases
+cli/cli: v2.65.0 # github-releases
 Azure/kubelogin: v0.1.6 # github-releases
 google/google-java-format: v1.25.2 # github-releases
-rclone/rclone: v1.68.2 # github-releases
+rclone/rclone: v1.69.0 # github-releases
 docker/compose: v2.32.4 # github-releases
 kubescape/kubescape: v3.0.24 # github-releases
 nvm-sh/nvm: v0.40.1 # github-releases
