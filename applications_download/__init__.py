@@ -156,8 +156,7 @@ def download_applications(
         response = requests.get(  # nosec
             app.get(
                 "url-pattern",
-                f"https://github.com/{key}/releases/download/{version_quote}/"
-                f"{app.get('get-file-name', '')}",
+                f"https://github.com/{key}/releases/download/{version_quote}/{app.get('get-file-name', '')}",
             ).format(**params),
             timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
         )
