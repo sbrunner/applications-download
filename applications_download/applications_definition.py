@@ -1,10 +1,8 @@
-"""
-Automatically generated file from a JSON schema.
-"""
+"""Automatically generated file from a JSON schema."""
 
 from typing import Literal, TypedDict, Union
-from typing_extensions import Required
 
+from typing_extensions import Required
 
 # | Application configuration.
 # |
