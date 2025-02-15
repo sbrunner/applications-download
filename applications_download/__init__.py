@@ -10,7 +10,7 @@ import urllib
 import urllib.parse
 from io import BytesIO
 from pathlib import Path
-from typing import Optional, cast
+from typing import cast
 
 import jsonschema_validator
 import requests
@@ -19,9 +19,11 @@ import yaml
 
 from applications_download import applications_definition
 
-_CONFIG_FOLDER = os.path.join(
-    os.getenv("XDG_CONFIG_HOME") or os.path.expanduser(os.path.join("~", ".config")), "applications_download"
-)
+_XDG_CONFIG_HOME = os.getenv("XDG_CONFIG_HOME")
+_CONFIG_FOLDER = (
+    Path(_XDG_CONFIG_HOME) if _XDG_CONFIG_HOME else Path("~").expanduser() / ".config"
+) / "applications_download"
+
 _SCHEMA = None
 
 
@@ -48,24 +50,24 @@ def _validate_applications(
     return cast(applications_definition.ApplicationsConfiguration, applications)
 
 
-def load_applications_data(
+def _load_applications_data(
     applications_data: str, filename: str, applications: applications_definition.ApplicationsConfiguration
 ) -> None:
     """Load the applications from the file."""
     applications.update(_validate_applications(applications_data, filename))
 
 
-def load_applications_file(
-    applications_filename: str, applications: applications_definition.ApplicationsConfiguration
+def _load_applications_file(
+    applications_filename: Path, applications: applications_definition.ApplicationsConfiguration
 ) -> None:
     """Load the applications from the file."""
-    with open(applications_filename, encoding="utf-8") as config_file:
+    with applications_filename.open(encoding="utf-8") as config_file:
         applications_data = config_file.read()
-    load_applications_data(applications_data, applications_filename, applications)
+    _load_applications_data(applications_data, str(applications_filename), applications)
 
 
-def load_applications(
-    applications_file: Optional[str] = None,
+def _load_applications(
+    applications_file: Path | None = None,
 ) -> applications_definition.ApplicationsConfiguration:
     """Load the applications from the file."""
     applications: applications_definition.ApplicationsConfiguration = {}
@@ -73,28 +75,27 @@ def load_applications(
     # Load the applications from the file provided by the package
     package_applications_data = pkgutil.get_data("applications_download", "applications.yaml")
     assert package_applications_data is not None
-    load_applications_data(
+    _load_applications_data(
         package_applications_data.decode(), "<applications_download>/applications.yaml", applications
     )
 
     # Load the applications from the file provided by the user
-    user_applications_file = os.path.join(_CONFIG_FOLDER, "applications.yaml")
+    user_applications_file = _CONFIG_FOLDER / "applications.yaml"
     if os.path.exists(user_applications_file):
-        load_applications_file(user_applications_file, applications)
+        _load_applications_file(user_applications_file, applications)
 
     if applications_file is None:
-        if os.path.exists("applications.yaml"):
-            load_applications_file("applications.yaml", applications)
-    else:
-        load_applications_file(applications_file, applications)
+        applications_file = Path("applications.yaml")
+    if applications_file.exists():
+        _load_applications_file(applications_file, applications)
 
     return applications
 
 
-def load_versions(versions_filename: Optional[str] = None) -> dict[str, str]:
+def _load_versions(versions_filename: Path | None = None) -> dict[str, str]:
     """Load the versions from the file."""
     if versions_filename is not None:
-        with open(versions_filename, encoding="utf-8") as version_file:
+        with versions_filename.open(encoding="utf-8") as version_file:
             return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
 
     if os.path.exists("applications-versions.yaml"):
@@ -111,121 +112,132 @@ def load_versions(versions_filename: Optional[str] = None) -> dict[str, str]:
     return cast(dict[str, str], yaml.load(versions_data, Loader=yaml.SafeLoader))
 
 
-def install_application(
-    name: str, versions_filename: Optional[str] = None, application_filename: Optional[str] = None
-) -> None:
-    """Download the applications defined in the c2cciutils package."""
-    applications = load_applications(application_filename)
-    versions = load_versions(versions_filename)
-    install_all_applications(applications, {name: versions[name]})
+class Applications:
+    """Applications class."""
 
+    def __init__(self, applications_path: Path, versions_path: Path) -> None:
+        self.applications = _load_applications(applications_path)
+        self.versions = _load_versions(versions_path)
+        self.installed_path = _CONFIG_FOLDER / "installed.yaml"
+        self.installed: dict[str, str] = {}
+        if self.installed_path.exists():
+            with self.installed_path.open(encoding="utf-8") as installed_file:
+                self.installed = cast(dict[str, str], yaml.load(installed_file, Loader=yaml.SafeLoader))
 
-def update_all_applications(
-    applications: applications_definition.ApplicationsConfiguration, versions: dict[str, str]
-) -> None:
-    """Update all the applications."""
-    installed_applications = get_installed_applications()
-    versions = {key: version for key, version in versions.items() if key in installed_applications}
+    def _save_status(self) -> None:
+        if not _CONFIG_FOLDER.exists():
+            _CONFIG_FOLDER.mkdir(parents=True)
 
-    install_all_applications(applications, versions)
+        with self.installed_path.open("w", encoding="utf-8") as installed_file:
+            yaml.dump(self.installed, installed_file)
 
+    def list(self, name: str | None) -> None:
+        """List the available applications."""
+        for key, app in self.applications.items():
+            if name is None or name == key:
+                version = f" ({self.versions[key]})" if key in self.versions else ""
+                print(f"{key}{version}: {app['description']}")
 
-def install_all_applications(
-    applications: applications_definition.ApplicationsConfiguration, versions: dict[str, str]
-) -> None:
-    """Download the versions of applications specified in the configuration."""
-    bin_path = os.path.join(os.environ["HOME"], ".local", "bin")
-    if not os.path.exists(bin_path):
-        os.makedirs(bin_path)
+    def install_all(self) -> None:
+        """Install all the applications."""
+        self._install(self.versions)
 
-    installed_applications = get_installed_applications()
-
-    for key, version in versions.items():
-        if key not in applications:
-            sys.stderr.write(f"Application {key} not found in the configuration\n")
+    def install(self, name: str | None, version: str | None) -> None:
+        """Install the application."""
+        if name not in self.applications:
+            sys.stderr.write(f"Application {name} not found in the configuration\n")
             sys.exit(1)
-        app = applications[key]
-
-        # If the package is already at the right version don't re-download
-        if key in installed_applications and installed_applications[key] == version:
-            continue
-
-        print(f"Download {key} version {version}")
-        version_quote = urllib.parse.quote_plus(version)
-        params = {
-            "version": version,
-            "version_quote": version_quote,
-            "short_version": version.lstrip("v"),
-        }
-        response = requests.get(  # nosec
-            app.get(
-                "url-pattern",
-                f"https://github.com/{key}/releases/download/{version_quote}/{app.get('get-file-name', '')}",
-            ).format(**params),
-            timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
-        )
-        response.raise_for_status()
-
-        if app.get("type") == "tar":
-            with tarfile.open(fileobj=BytesIO(response.content)) as tar:
-                extracted_file = tar.extractfile(app["tar-file-name"].format(**params))
-                assert extracted_file is not None
-                content = extracted_file.read()
+        if version is not None:
+            self._install({name: version})
         else:
-            content = response.content
+            if name not in self.versions:
+                sys.stderr.write(f"The version of {name} is not defined in the versions file\n")
+                sys.exit(1)
+            self._install({name: self.versions[name]})
 
-        with open(os.path.join(bin_path, app["to-file-name"]), "wb") as destination_file:
-            destination_file.write(content)
+    def update_all(self) -> None:
+        """Update all the applications."""
+        versions = {key: version for key, version in self.versions.items() if key in self.installed}
+        self._install(versions)
 
-        for additional_filename, additional_content in app.get("additional-files", {}).items():
-            print(f"Create {additional_filename}")
-            with open(os.path.join(bin_path, additional_filename), "w", encoding="utf-8") as additional_file:
-                additional_file.write(additional_content)
+    def uninstall(self, name: str) -> None:
+        """Uninstall the application."""
+        if name not in self.applications:
+            sys.stderr.write(f"Application {name} not found in the configuration\n")
+            sys.exit(1)
 
-        for command in app.get("finish-commands", []):
-            subprocess.run(command, check=True, cwd=bin_path)  # nosec
+        if name not in self.installed:
+            sys.stderr.write(f"Application {name} not installed\n")
+            sys.exit(1)
 
-        if "version-command" in app:
-            subprocess.run(app["version-command"], check=True, cwd=bin_path)  # nosec
+        app = self.applications[name]
+        bin_path = Path(os.environ["HOME"]) / ".local" / "bin"
+        application_file = bin_path / app["to-file-name"]
+        if application_file.exists():
+            application_file.unlink()
+        del self.installed[name]
+        self._save_status()
 
-        if app.get("remove-after-success", False):
-            os.remove(os.path.join(bin_path, app["to-file-name"]))
+    def _install(self, versions: dict[str, str]) -> None:
+        """Download the versions of applications specified in the configuration."""
+        bin_path = os.path.join(os.environ["HOME"], ".local", "bin")
+        if not os.path.exists(bin_path):
+            os.makedirs(bin_path)
 
-        installed_applications[key] = version
+        for key, version in versions.items():
+            if key not in self.applications:
+                sys.stderr.write(f"Application {key} not found in the configuration\n")
+                sys.exit(1)
+            app = self.applications[key]
 
-        if not os.path.exists(_CONFIG_FOLDER):
-            os.makedirs(_CONFIG_FOLDER)
-        with open(os.path.join(_CONFIG_FOLDER, "installed.yaml"), "w", encoding="utf-8") as installed_file:
-            yaml.dump(installed_applications, installed_file)
+            # If the package is already at the right version don't re-download
+            if key in self.installed and self.installed[key] == version:
+                continue
 
+            print(f"Download {key} version {version}")
+            version_quote = urllib.parse.quote_plus(version)
+            params = {
+                "version": version,
+                "version_quote": version_quote,
+                "short_version": version.lstrip("v"),
+            }
+            response = requests.get(  # nosec
+                app.get(
+                    "url-pattern",
+                    f"https://github.com/{key}/releases/download/{version_quote}/"
+                    f"{app.get('get-file-name', '')}",
+                ).format(**params),
+                timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
+            )
+            response.raise_for_status()
 
-def get_installed_applications() -> dict[str, str]:
-    """List the installed applications."""
-    installed_applications_filename = os.path.join(_CONFIG_FOLDER, "installed.yaml")
-    if not os.path.exists(installed_applications_filename):
-        return {}
+            if app.get("type") == "tar":
+                with tarfile.open(fileobj=BytesIO(response.content)) as tar:
+                    extracted_file = tar.extractfile(app["tar-file-name"].format(**params))
+                    assert extracted_file is not None
+                    content = extracted_file.read()
+            else:
+                content = response.content
 
-    with open(installed_applications_filename, encoding="utf-8") as installed_file:
-        return cast(dict[str, str], yaml.load(installed_file, Loader=yaml.SafeLoader))
+            with open(os.path.join(bin_path, app["to-file-name"]), "wb") as destination_file:
+                destination_file.write(content)
 
+            for additional_filename, additional_content in app.get("additional-files", {}).items():
+                print(f"Create {additional_filename}")
+                with open(
+                    os.path.join(bin_path, additional_filename), "w", encoding="utf-8"
+                ) as additional_file:
+                    additional_file.write(additional_content)
 
-def uninstall_application(applications: applications_definition.ApplicationsConfiguration, name: str) -> None:
-    """Uninstall the application."""
-    if name not in applications:
-        sys.stderr.write(f"Application {name} not found in the configuration\n")
-        sys.exit(1)
+            for command in app.get("finish-commands", []):
+                subprocess.run(command, check=True, cwd=bin_path)  # nosec
 
-    installed_applications = get_installed_applications()
-    if name not in installed_applications:
-        sys.stderr.write(f"Application {name} not installed\n")
-        sys.exit(1)
+            if "version-command" in app:
+                subprocess.run(app["version-command"], check=True, cwd=bin_path)  # nosec
 
-    app = applications[name]
-    bin_path = Path(os.environ["HOME"]) / ".local" / "bin"
-    application_file = bin_path / app["to-file-name"]
-    if application_file.exists():
-        application_file.unlink()
-    del installed_applications[name]
+            if app.get("remove-after-success", False):
+                os.remove(os.path.join(bin_path, app["to-file-name"]))
 
-    with open(os.path.join(_CONFIG_FOLDER, "installed.yaml"), "w", encoding="utf-8") as installed_file:
-        yaml.dump(installed_applications, installed_file)
+            self.installed[key] = version
+
+            self._save_status()
