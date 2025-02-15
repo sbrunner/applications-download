@@ -8,9 +8,11 @@ inherits:
 ignore-paths:
   - applications_download/configuration.py
   - applications_download/applications_definition.py
+
 mypy:
   options:
     python-version: '3.9'
+
 ruff:
   options:
     target-version: py39

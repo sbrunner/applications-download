@@ -9,6 +9,7 @@ import tarfile
 import urllib
 import urllib.parse
 from io import BytesIO
+from pathlib import Path
 from typing import Optional, cast
 
 import jsonschema_validator
@@ -110,23 +111,26 @@ def load_versions(versions_filename: Optional[str] = None) -> dict[str, str]:
     return cast(dict[str, str], yaml.load(versions_data, Loader=yaml.SafeLoader))
 
 
-def download_all_applications() -> None:
-    """Download all the applications defined in the c2cciutils package."""
-    applications = load_applications(None)
-    versions = load_versions("applications-versions.yaml")
-    download_applications(applications, versions)
-
-
-def download_application(
+def install_application(
     name: str, versions_filename: Optional[str] = None, application_filename: Optional[str] = None
 ) -> None:
     """Download the applications defined in the c2cciutils package."""
     applications = load_applications(application_filename)
     versions = load_versions(versions_filename)
-    download_applications(applications, {name: versions[name]})
+    install_all_applications(applications, {name: versions[name]})
 
 
-def download_applications(
+def update_all_applications(
+    applications: applications_definition.ApplicationsConfiguration, versions: dict[str, str]
+) -> None:
+    """Update all the applications."""
+    installed_applications = get_installed_applications()
+    versions = {key: version for key, version in versions.items() if key in installed_applications}
+
+    install_all_applications(applications, versions)
+
+
+def install_all_applications(
     applications: applications_definition.ApplicationsConfiguration, versions: dict[str, str]
 ) -> None:
     """Download the versions of applications specified in the configuration."""
@@ -203,3 +207,25 @@ def get_installed_applications() -> dict[str, str]:
 
     with open(installed_applications_filename, encoding="utf-8") as installed_file:
         return cast(dict[str, str], yaml.load(installed_file, Loader=yaml.SafeLoader))
+
+
+def uninstall_application(applications: applications_definition.ApplicationsConfiguration, name: str) -> None:
+    """Uninstall the application."""
+    if name not in applications:
+        sys.stderr.write(f"Application {name} not found in the configuration\n")
+        sys.exit(1)
+
+    installed_applications = get_installed_applications()
+    if name not in installed_applications:
+        sys.stderr.write(f"Application {name} not installed\n")
+        sys.exit(1)
+
+    app = applications[name]
+    bin_path = Path(os.environ["HOME"]) / ".local" / "bin"
+    application_file = bin_path / app["to-file-name"]
+    if application_file.exists():
+        application_file.unlink()
+    del installed_applications[name]
+
+    with open(os.path.join(_CONFIG_FOLDER, "installed.yaml"), "w", encoding="utf-8") as installed_file:
+        yaml.dump(installed_applications, installed_file)
