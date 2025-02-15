@@ -101,13 +101,15 @@ jobs:
         if: failure()
 
       - name: Test applications list
-        run: poetry run applications-download --list
+        run: poetry run applications-download list
       - name: Test list installed applications
-        run: poetry run applications-download --installed
+        run: poetry run applications-download installed
       - name: Test applications download
-        run: poetry run applications-download
+        run: poetry run applications-download install --all
+      - name: Test applications update
+        run: poetry run applications-download update
       - name: Test list installed applications
-        run: poetry run applications-download --installed
+        run: poetry run applications-download installed
 
       - name: Publish
         run: tag-publish
