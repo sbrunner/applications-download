@@ -72,7 +72,7 @@ repos:
     hooks:
       - id: git-check
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.31.1
+    rev: 0.31.2
     hooks:
       - id: check-github-actions
       - id: check-github-workflows
@@ -93,7 +93,7 @@ repos:
     hooks:
       - id: ripsecrets
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.4
+    rev: v0.9.7
     hooks:
       - id: ruff-format
       - id: ruff
@@ -101,7 +101,7 @@ repos:
           - --fix
           - --unsafe-fixes
   - repo: https://github.com/PyCQA/prospector
-    rev: 1.14.0
+    rev: v1.14.1
     hooks:
       - id: prospector
         args:
@@ -111,7 +111,7 @@ repos:
         additional_dependencies:
           - prospector-profile-duplicated==1.10.4 # pypi
           - prospector-profile-utils==1.17.0 # pypi
-          - ruff==0.9.4 # pypi
+          - ruff==0.9.7 # pypi
   - repo: https://github.com/mheap/json-schema-spell-checker
     rev: main
     hooks:
