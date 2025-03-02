@@ -28,10 +28,11 @@ _SCHEMA = None
 
 
 def _validate_applications(
-    applications_data: str, application_filename: str
+    applications_data: str,
+    application_filename: str,
 ) -> applications_definition.ApplicationsConfiguration:
     """Validate the applications configuration."""
-    global _SCHEMA  # pylint: disable=global-statement
+    global _SCHEMA  # pylint: disable=global-statement # noqa: PLW0603
 
     if _SCHEMA is None:
         schema_data = pkgutil.get_data("applications_download", "applications-schema.json")
@@ -51,14 +52,17 @@ def _validate_applications(
 
 
 def _load_applications_data(
-    applications_data: str, filename: str, applications: applications_definition.ApplicationsConfiguration
+    applications_data: str,
+    filename: str,
+    applications: applications_definition.ApplicationsConfiguration,
 ) -> None:
     """Load the applications from the file."""
     applications.update(_validate_applications(applications_data, filename))
 
 
 def _load_applications_file(
-    applications_filename: Path, applications: applications_definition.ApplicationsConfiguration
+    applications_filename: Path,
+    applications: applications_definition.ApplicationsConfiguration,
 ) -> None:
     """Load the applications from the file."""
     with applications_filename.open(encoding="utf-8") as config_file:
@@ -76,12 +80,14 @@ def _load_applications(
     package_applications_data = pkgutil.get_data("applications_download", "applications.yaml")
     assert package_applications_data is not None
     _load_applications_data(
-        package_applications_data.decode(), "<applications_download>/applications.yaml", applications
+        package_applications_data.decode(),
+        "<applications_download>/applications.yaml",
+        applications,
     )
 
     # Load the applications from the file provided by the user
     user_applications_file = _CONFIG_FOLDER / "applications.yaml"
-    if os.path.exists(user_applications_file):
+    if user_applications_file.exists():
         _load_applications_file(user_applications_file, applications)
 
     if applications_file is None:
@@ -98,13 +104,13 @@ def _load_versions(versions_filename: Path | None = None) -> dict[str, str]:
         with versions_filename.open(encoding="utf-8") as version_file:
             return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
 
-    if os.path.exists("applications-versions.yaml"):
-        with open("applications-versions.yaml", encoding="utf-8") as version_file:
+    if Path("applications-versions.yaml").exists():
+        with Path("applications-versions.yaml").open(encoding="utf-8") as version_file:
             return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
 
-    config_filename = os.path.join(_CONFIG_FOLDER, "applications-versions.yaml")
-    if os.path.exists(config_filename):
-        with open(config_filename, encoding="utf-8") as version_file:
+    config_filename = _CONFIG_FOLDER / "applications-versions.yaml"
+    if config_filename.exists():
+        with config_filename.open(encoding="utf-8") as version_file:
             return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
 
     versions_data = pkgutil.get_data("applications_download", "versions.yaml")
@@ -180,9 +186,9 @@ class Applications:
 
     def _install(self, versions: dict[str, str]) -> None:
         """Download the versions of applications specified in the configuration."""
-        bin_path = os.path.join(os.environ["HOME"], ".local", "bin")
-        if not os.path.exists(bin_path):
-            os.makedirs(bin_path)
+        bin_path = Path(os.environ["HOME"]) / ".local" / "bin"
+        if not bin_path.exists():
+            bin_path.mkdir(parents=True)
 
         for key, version in versions.items():
             if key not in self.applications:
@@ -219,14 +225,12 @@ class Applications:
             else:
                 content = response.content
 
-            with open(os.path.join(bin_path, app["to-file-name"]), "wb") as destination_file:
+            with (bin_path / app["to-file-name"]).open("wb") as destination_file:
                 destination_file.write(content)
 
             for additional_filename, additional_content in app.get("additional-files", {}).items():
                 print(f"Create {additional_filename}")
-                with open(
-                    os.path.join(bin_path, additional_filename), "w", encoding="utf-8"
-                ) as additional_file:
+                with (bin_path / additional_filename).open("w", encoding="utf-8") as additional_file:
                     additional_file.write(additional_content)
 
             for command in app.get("finish-commands", []):
@@ -236,7 +240,7 @@ class Applications:
                 subprocess.run(app["version-command"], check=True, cwd=bin_path)  # nosec
 
             if app.get("remove-after-success", False):
-                os.remove(os.path.join(bin_path, app["to-file-name"]))
+                (bin_path / app["to-file-name"]).unlink()
 
             self.installed[key] = version
 
