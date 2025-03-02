@@ -15,13 +15,17 @@ def main() -> None:
             applications,
             how to extract the application from the archive, and the executable name.
             The second file contains the versions of the applications to install,
-            this file is usually updated by Renovate."""
+            this file is usually updated by Renovate.""",
     )
     argparser.add_argument(
-        "--applications", type=Path, help="The file containing the applications to install"
+        "--applications",
+        type=Path,
+        help="The file containing the applications to install",
     )
     argparser.add_argument(
-        "--versions", type=Path, help="The file containing the versions of the applications to install"
+        "--versions",
+        type=Path,
+        help="The file containing the versions of the applications to install",
     )
     subparsers = argparser.add_subparsers(dest="cmd")
 
@@ -31,7 +35,8 @@ def main() -> None:
     install_parser = subparsers.add_parser("install", help="Install applications")
     install_parser.add_argument("--name", help="The name of the application to install")
     install_parser.add_argument(
-        "--version", help="The version of the application to download, to be used with --name"
+        "--version",
+        help="The version of the application to download, to be used with --name",
     )
     install_parser.add_argument("--all", action="store_true", help="Install all the applications")
 
