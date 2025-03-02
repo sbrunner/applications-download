@@ -605,14 +605,14 @@ type = ["mypy (>=1.11.2)"]
 
 [[package]]
 name = "prospector"
-version = "1.14.1"
+version = "1.15.2"
 description = "Prospector is a tool to analyse Python code by aggregating the result of other tools."
 optional = false
 python-versions = "<4.0,>=3.9"
 groups = ["dev"]
 files = [
-    {file = "prospector-1.14.1-py3-none-any.whl", hash = "sha256:3cdb71c20c26a72a370e94de7f47f8492299d8843af3be5c5d7d5118d591e910"},
-    {file = "prospector-1.14.1.tar.gz", hash = "sha256:4f969c7d3df9f81c3c626e92ea25c243627da2d707285805ad36ed7c378ee3ec"},
+    {file = "prospector-1.15.2-py3-none-any.whl", hash = "sha256:06f8986e96a2d7f82904821710745418496e5c163241a922cac8dc3e3bc7dd43"},
+    {file = "prospector-1.15.2.tar.gz", hash = "sha256:e080667fc33baa93f5b2ab3d88650bbef201a9edcb1982a3ccf6b0696e1f4ab0"},
 ]
 
 [package.dependencies]
@@ -660,18 +660,18 @@ files = [
 
 [[package]]
 name = "prospector-profile-utils"
-version = "1.20.2"
+version = "1.21.9"
 description = "Some utility Prospector profiles."
 optional = false
 python-versions = "*"
 groups = ["dev"]
 files = [
-    {file = "prospector_profile_utils-1.20.2-py2.py3-none-any.whl", hash = "sha256:f550758a67c401df6a293a3461120fb22d7f3da0e8f93f3b04dbc2c67cbdd05e"},
-    {file = "prospector_profile_utils-1.20.2.tar.gz", hash = "sha256:ac26adee6db3abfe931ea236b4202dd98f695405f25bd795121b2591262df66b"},
+    {file = "prospector_profile_utils-1.21.9-py2.py3-none-any.whl", hash = "sha256:bbd8b91d0b7ccc2bda3e2f6b6188303ea3415193382d8ce79052a2a8a2a2a9c2"},
+    {file = "prospector_profile_utils-1.21.9.tar.gz", hash = "sha256:08dd034d3022cacf4e911a36094b84d54314c1b4bf7c9f52932c41b0abe0ed1c"},
 ]
 
 [package.dependencies]
-prospector = ">=1.13.0"
+prospector = {version = ">=1.14.0", extras = ["with-mypy", "with-ruff"]}
 
 [[package]]
 name = "pycodestyle"
@@ -1467,4 +1467,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "9e4eeb2ed3498e0994bdfb8ca9319510b11eb59f72ed4c55e294bfa7d74a1143"
+content-hash = "4eda9859fa665d9691256d502f7aba311f146d3c8638796954a22edd0f10b530"
