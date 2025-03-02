@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
+    permissions:
+      contents: write
+      pull-requests: write
+
     steps:
       - name: Print event
         run: echo "${GITHUB}" | jq
