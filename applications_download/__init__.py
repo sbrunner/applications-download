@@ -184,7 +184,7 @@ class Applications:
         del self.installed[name]
         self._save_status()
 
-    def _install(self, versions: dict[str, str]) -> None:
+    def _install(self, versions: dict[str, str]) -> None:  # pylint: disable=too-many-locals
         """Download the versions of applications specified in the configuration."""
         bin_path = Path(os.environ["HOME"]) / ".local" / "bin"
         if not bin_path.exists():
