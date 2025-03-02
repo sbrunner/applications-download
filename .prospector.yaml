@@ -3,10 +3,7 @@ inherits:
   - utils:no-design-checks
   - utils:fix
   - duplicated
-
-ignore-paths:
-  - applications_download/configuration.py
-  - applications_download/applications_definition.py
+  - .prospector-ignore.yaml
 
 mypy:
   options:
