@@ -53,6 +53,7 @@ repos:
       - id: poetry2-lock
         additional_dependencies:
           - poetry==2.1.1 # pypi
+      - id: canonicalize
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
@@ -105,13 +106,21 @@ repos:
     hooks:
       - id: prospector
         args:
-          - --tool=ruff
+          - --profile=utils:pre-commit
           - --die-on-tool-error
           - --output-format=pylint
         additional_dependencies:
           - prospector-profile-duplicated==1.10.4 # pypi
           - prospector-profile-utils==1.21.9 # pypi
-          - ruff==0.9.7 # pypi
+      - id: prospector
+        args:
+          - --die-on-tool-error
+          - --output-format=pylint
+          - --profile=utils:tests
+          - --profile=utils:pre-commit
+          - --profile=.prospector-ignore.yaml
+        additional_dependencies:
+          - prospector-profile-utils==1.21.9 # pypi
   - repo: https://github.com/mheap/json-schema-spell-checker
     rev: main
     hooks:
