@@ -32,7 +32,7 @@ def _validate_applications(
     application_filename: str,
 ) -> applications_definition.ApplicationsConfiguration:
     """Validate the applications configuration."""
-    global _SCHEMA  # pylint: disable=global-statement
+    global _SCHEMA  # pylint: disable=global-statement # noqa: PLW0603
 
     if _SCHEMA is None:
         schema_data = pkgutil.get_data("applications_download", "applications-schema.json")
