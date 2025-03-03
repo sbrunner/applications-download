@@ -4,4 +4,4 @@ poetry-dynamic-versioning[plugin]==1.7.1
 poetry-plugin-tweak-dependencies-version==1.5.2
 pre-commit==4.1.0
 application-download==0.0.1.dev3
-tag-publish==0.13.3
+tag-publish==1.0.0
