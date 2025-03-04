@@ -29,7 +29,7 @@ through Renovate.
 Create an application file (e.-g. `applications.yaml`) with:
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/camptocamp/c2cciutils/master/c2cciutils/schema-applications.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sbrunner/applications-download/refs/heads/<version>/applications_download/applications-schema.json
 
 # Application from GitHub release
 <organization>/<project>:

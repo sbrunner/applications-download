@@ -121,7 +121,7 @@ def _load_versions(versions_filename: Path | None = None) -> dict[str, str]:
 class Applications:
     """Applications class."""
 
-    def __init__(self, applications_path: Path, versions_path: Path) -> None:
+    def __init__(self, applications_path: Path | None, versions_path: Path | None) -> None:
         self.applications = _load_applications(applications_path)
         self.versions = _load_versions(versions_path)
         self.installed_path = _CONFIG_FOLDER / "installed.yaml"
