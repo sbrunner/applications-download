@@ -148,7 +148,7 @@ class Applications:
         """Install all the applications."""
         self._install(self.versions)
 
-    def install(self, name: str | None, version: str | None) -> None:
+    def install(self, name: str | None, version: str | None = None) -> None:
         """Install the application."""
         if name not in self.applications:
             sys.stderr.write(f"Application {name} not found in the configuration\n")
