@@ -234,10 +234,10 @@ class Applications:
                     additional_file.write(additional_content)
 
             for command in app.get("finish-commands", []):
-                subprocess.run(command, check=True, cwd=bin_path)  # nosec
+                subprocess.run(command, check=True, cwd=bin_path)  # noqa: S603
 
             if "version-command" in app:
-                subprocess.run(app["version-command"], check=True, cwd=bin_path)  # nosec
+                subprocess.run(app["version-command"], check=True, cwd=bin_path)  # noqa: S603
 
             if app.get("remove-after-success", False):
                 (bin_path / app["to-file-name"]).unlink()
