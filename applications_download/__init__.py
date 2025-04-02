@@ -48,7 +48,7 @@ def _validate_applications(
         sys.stderr.write("\n")
         sys.exit(1)
 
-    return cast(applications_definition.ApplicationsConfiguration, applications)
+    return cast("applications_definition.ApplicationsConfiguration", applications)
 
 
 def _load_applications_data(
@@ -102,20 +102,20 @@ def _load_versions(versions_filename: Path | None = None) -> dict[str, str]:
     """Load the versions from the file."""
     if versions_filename is not None:
         with versions_filename.open(encoding="utf-8") as version_file:
-            return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
+            return cast("dict[str, str]", yaml.load(version_file, Loader=yaml.SafeLoader))
 
     if Path("applications-versions.yaml").exists():
         with Path("applications-versions.yaml").open(encoding="utf-8") as version_file:
-            return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
+            return cast("dict[str, str]", yaml.load(version_file, Loader=yaml.SafeLoader))
 
     config_filename = _CONFIG_FOLDER / "applications-versions.yaml"
     if config_filename.exists():
         with config_filename.open(encoding="utf-8") as version_file:
-            return cast(dict[str, str], yaml.load(version_file, Loader=yaml.SafeLoader))
+            return cast("dict[str, str]", yaml.load(version_file, Loader=yaml.SafeLoader))
 
     versions_data = pkgutil.get_data("applications_download", "versions.yaml")
     assert versions_data is not None
-    return cast(dict[str, str], yaml.load(versions_data, Loader=yaml.SafeLoader))
+    return cast("dict[str, str]", yaml.load(versions_data, Loader=yaml.SafeLoader))
 
 
 class Applications:
@@ -128,7 +128,7 @@ class Applications:
         self.installed: dict[str, str] = {}
         if self.installed_path.exists():
             with self.installed_path.open(encoding="utf-8") as installed_file:
-                self.installed = cast(dict[str, str], yaml.load(installed_file, Loader=yaml.SafeLoader))
+                self.installed = cast("dict[str, str]", yaml.load(installed_file, Loader=yaml.SafeLoader))
 
     def _save_status(self) -> None:
         if not _CONFIG_FOLDER.exists():
