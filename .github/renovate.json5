@@ -37,4 +37,5 @@
       versioning: 'regex:^[a-zA-Z -]*(?<major>\\d+)?[a-zA-Z -]*$',
     },
   ],
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
 }
