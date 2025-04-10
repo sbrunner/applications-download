@@ -26,37 +26,7 @@ exclude = ["applications_download/applications_definition.py"]
 convention = "numpy"
 
 [tool.poetry]
-name = "applications-download"
 version = "0.0.0"
-description = "Tools used to publish Python packages, Docker images and Helm charts for GitHub tag and branch"
-readme = "README.md"
-authors = ["Camptocamp <info@camptocamp.com>"]
-keywords = ["ci"]
-repository = "https://github.com/camptocamp/applications-download"
-license = "FreeBSD"
-packages = [{ include = "applications_download" }]
-classifiers = [
-    'Development Status :: 5 - Production/Stable',
-    'Environment :: Console',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: MIT License',
-    'Operating System :: OS Independent',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Programming Language :: Python :: 3.12',
-    'Programming Language :: Python :: 3.13',
-    'Typing :: Typed',
-]
-include = [
-    "applications_download/py.typed",
-    "applications_download/*.json",
-    "applications_download/*.yaml",
-]
-
-[tool.poetry.scripts]
-applications-download = "applications_download.cli:main"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
@@ -91,6 +61,42 @@ format-jinja = """
 
 [tool.poetry-plugin-tweak-dependencies-version]
 default = "major"
+
+[project]
+dynamic = ["dependencies", "version"]
+name = "applications-download"
+description = "Tools used to publish Python packages, Docker images and Helm charts for GitHub tag and branch"
+readme = "README.md"
+keywords = ["ci"]
+license = "FreeBSD"
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Typing :: Typed',
+]
+authors = [{name = "Camptocamp",email = "info@camptocamp.com"}]
+packages = [{ include = "applications_download" }]
+include = [
+    "applications_download/py.typed",
+    "applications_download/*.json",
+    "applications_download/*.yaml",
+]
+
+[project.urls]
+repository = "https://github.com/camptocamp/applications-download"
+"Bug Tracker" = "https://github.com/camptocamp/applications-download/issues"
+
+[project.scripts]
+applications-download = "applications_download.cli:main"
 
 [build-system]
 requires = [
