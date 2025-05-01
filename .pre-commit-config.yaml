@@ -145,6 +145,6 @@ repos:
           - --ignore-acronyms
           - --en-us
   - repo: https://github.com/sbrunner/python-versions-hook
-    rev: 0.8.0
+    rev: 1.0.0
     hooks:
       - id: python-versions
