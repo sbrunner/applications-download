@@ -90,6 +90,7 @@ include = [
     "applications_download/*.json",
     "applications_download/*.yaml",
 ]
+requires-python = ">=3.10"
 
 [project.urls]
 repository = "https://github.com/camptocamp/applications-download"
