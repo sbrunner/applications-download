@@ -13,7 +13,7 @@ JOSM/josm: 19369-tested # github-releases
 hadolint/hadolint: v2.12.0 # github-releases
 koalaman/shellcheck: v0.10.0 # github-releases
 transifex/cli: v1.6.17 # github-releases
-cli/cli: v2.71.0 # github-releases
+cli/cli: v2.71.1 # github-releases
 Azure/kubelogin: v0.2.7 # github-releases
 google/google-java-format: v1.26.0 # github-releases
 rclone/rclone: v1.69.1 # github-releases
