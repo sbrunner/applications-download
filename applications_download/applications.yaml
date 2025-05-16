@@ -267,3 +267,14 @@ nvm-sh/nvm:
   finish-commands:
     - - bash
       - nvm-install.sh
+iffse/pay-respects:
+  description: Pay Respects will suggest a fix to your console command by simply pressing F!
+  get-file-name: pay-respects_{short_version}-1_amd64.deb
+  to-file-name: pay-respects.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - apt-get
+      - install
+      - --yes
+      - ./pay-respects.deb
