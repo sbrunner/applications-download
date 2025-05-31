@@ -40,8 +40,8 @@ jsonschema-validator-new  = "0.3.2"
 prospector = { version = "1.17.1", extras = ["with-bandit", "with-mypy", "with-pyroma", "with_ruff", "with_pyroma"] }
 prospector-profile-duplicated = "1.10.5"
 prospector-profile-utils = "1.22.3"
-types-requests = "2.32.0.20250328"
-types-pyyaml = "6.0.12.20250402"
+types-requests = "2.32.0.20250515"
+types-pyyaml = "6.0.12.20250516"
 
 [tool.poetry-dynamic-versioning]
 enable = true
