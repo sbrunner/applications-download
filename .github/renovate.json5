@@ -15,9 +15,9 @@
   minimumReleaseAge: '7 days',
   customManagers: [
     {
-      fileMatch: ['^applications_download/versions.yaml$'],
       matchStrings: ['(?<depName>.*): (?<currentValue>.*) # (?<datasource>.*)'],
       customType: 'regex',
+      managerFilePatterns: ['/^applications_download/versions.yaml$/'],
     },
   ],
   packageRules: [
