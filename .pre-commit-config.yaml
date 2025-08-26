@@ -57,7 +57,7 @@ repos:
       - id: prospector-to-ruff
         additional_dependencies:
           - prospector-profile-duplicated==1.10.5 # pypi
-          - prospector-profile-utils==1.26.4 # pypi
+          - prospector-profile-utils==1.26.5 # pypi
         args:
           - --test=utils:tests
   - repo: https://github.com/codespell-project/codespell
@@ -117,7 +117,7 @@ repos:
           - --output-format=pylint
         additional_dependencies:
           - prospector-profile-duplicated==1.10.5 # pypi
-          - prospector-profile-utils==1.26.4 # pypi
+          - prospector-profile-utils==1.26.5 # pypi
           - pylint[spelling]==3.3.7 # pypi
           - ruff==0.12.5 # pypi
         exclude: |-
@@ -137,7 +137,7 @@ repos:
           - --profile=utils:pre-commit
           - --profile=.prospector-ignore.yaml
         additional_dependencies:
-          - prospector-profile-utils==1.26.4 # pypi
+          - prospector-profile-utils==1.26.5 # pypi
   - repo: https://github.com/mheap/json-schema-spell-checker
     rev: main
     hooks:
