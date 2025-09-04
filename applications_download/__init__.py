@@ -72,6 +72,7 @@ def _load_applications_file(
 
 def _load_applications(
     applications_file: Path | None = None,
+    applications_url: str | None = None,
 ) -> applications_definition.ApplicationsConfiguration:
     """Load the applications from the file."""
     applications: applications_definition.ApplicationsConfiguration = {}
@@ -95,14 +96,30 @@ def _load_applications(
     if applications_file.exists():
         _load_applications_file(applications_file, applications)
 
+    if applications_url is not None:
+        response = requests.get(  # nosec
+            applications_url,
+            timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
+        )
+        response.raise_for_status()
+        _load_applications_data(response.text, applications_url, applications)
+
     return applications
 
 
-def _load_versions(versions_filename: Path | None = None) -> dict[str, str]:
+def _load_versions(versions_filename: Path | None = None, versions_url: str | None = None) -> dict[str, str]:
     """Load the versions from the file."""
     if versions_filename is not None:
         with versions_filename.open(encoding="utf-8") as version_file:
             return cast("dict[str, str]", yaml.load(version_file, Loader=yaml.SafeLoader))
+
+    if versions_url is not None:
+        response = requests.get(  # nosec
+            versions_url,
+            timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
+        )
+        response.raise_for_status()
+        return cast("dict[str, str]", yaml.load(response.text, Loader=yaml.SafeLoader))
 
     if Path("applications-versions.yaml").exists():
         with Path("applications-versions.yaml").open(encoding="utf-8") as version_file:
@@ -121,9 +138,15 @@ def _load_versions(versions_filename: Path | None = None) -> dict[str, str]:
 class Applications:
     """Applications class."""
 
-    def __init__(self, applications_path: Path | None = None, versions_path: Path | None = None) -> None:
-        self.applications = _load_applications(applications_path)
-        self.versions = _load_versions(versions_path)
+    def __init__(
+        self,
+        applications_path: Path | None = None,
+        versions_path: Path | None = None,
+        applications_url: str | None = None,
+        versions_url: str | None = None,
+    ) -> None:
+        self.applications = _load_applications(applications_path, applications_url)
+        self.versions = _load_versions(versions_path, versions_url)
         self.installed_path = _CONFIG_FOLDER / "installed.yaml"
         self.installed: dict[str, str] = {}
         if self.installed_path.exists():
