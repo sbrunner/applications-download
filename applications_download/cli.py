@@ -23,10 +23,21 @@ def main() -> None:
         help="The file containing the applications to install",
     )
     argparser.add_argument(
+        "--applications-url",
+        type=str,
+        help="The URL of the applications file",
+    )
+    argparser.add_argument(
         "--versions",
         type=Path,
         help="The file containing the versions of the applications to install",
     )
+    argparser.add_argument(
+        "--versions-url",
+        type=str,
+        help="The URL of the versions file, to be used if --versions is not specified",
+    )
+
     subparsers = argparser.add_subparsers(dest="cmd")
 
     list_parser = subparsers.add_parser("list", help="List the available applications to install")
@@ -50,7 +61,15 @@ def main() -> None:
 
     args = argparser.parse_args()
 
-    applications = applications_download.Applications(args.applications, args.versions)
+    if args.versions is not None and args.versions_url is not None:
+        argparser.error("Cannot use both --versions and --versions-url")
+
+    applications = applications_download.Applications(
+        args.applications,
+        args.versions,
+        args.applications_url,
+        args.versions_url,
+    )
 
     match args.cmd:
         case "list":
