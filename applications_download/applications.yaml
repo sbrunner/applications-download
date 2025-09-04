@@ -278,3 +278,14 @@ iffse/pay-respects:
       - install
       - --yes
       - ./pay-respects.deb
+sysdig:
+  description: Sysdig CLI Scanner
+  url-pattern: https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/{version}/linux/amd64/sysdig-cli-scanner
+  to-file-name: sysdig-cli-scanner
+  finish-commands:
+    - - chmod
+      - +x
+      - sysdig-cli-scanner
+  version-command:
+    - sysdig-cli-scanner
+    - --version
