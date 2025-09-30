@@ -21,9 +21,9 @@ version = "0.0.0"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-requests = "2.32.4"
+requests = "2.32.5"
 PyYAML = "6.0.2"
-"ruamel.yaml" = "0.18.14"
+"ruamel.yaml" = "0.18.15"
 jsonschema-validator-new  = "0.3.2"
 #jsonschema-validator  = "0.1.0"
 
@@ -31,8 +31,8 @@ jsonschema-validator-new  = "0.3.2"
 prospector = { version = "1.17.3", extras = ["with-bandit", "with-mypy", "with-pyroma", "with_ruff", "with_pyroma"] }
 prospector-profile-duplicated = "1.10.5"
 prospector-profile-utils = "1.26.5"
-types-requests = "2.32.4.20250611"
-types-pyyaml = "6.0.12.20250516"
+types-requests = "2.32.4.20250913"
+types-pyyaml = "6.0.12.20250915"
 
 [tool.poetry-dynamic-versioning]
 enable = true
