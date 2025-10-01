@@ -4,7 +4,7 @@ k3s-io/k3s: v1.34.1+k3s1 # github-releases
 derailed/k9s: v0.50.12 # github-releases
 helm/helm: v3.19.0 # github-releases
 helm/chart-releaser: v1.8.1 # github-releases
-snyk/cli: v1.1299.0 # github-releases
+snyk/cli: v1.1299.1 # github-releases
 kubernetes/kubernetes: v1.34.1 # github-releases
 mozilla/sops: v3.10.2 # github-releases
 aquasecurity/trivy: v0.66.0 # github-releases
