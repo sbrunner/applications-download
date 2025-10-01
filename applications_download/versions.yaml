@@ -9,7 +9,7 @@ kubernetes/kubernetes: v1.34.1 # github-releases
 mozilla/sops: v3.10.2 # github-releases
 aquasecurity/trivy: v0.66.0 # github-releases
 gopasspw/gopass: v1.15.18 # github-releases
-JOSM/josm: 19423-tested # github-releases
+JOSM/josm: 19439-tested # github-releases
 hadolint/hadolint: v2.14.0 # github-releases
 koalaman/shellcheck: v0.11.0 # github-releases
 transifex/cli: v1.6.17 # github-releases
