@@ -16,7 +16,7 @@ transifex/cli: v1.6.17 # github-releases
 cli/cli: v2.80.0 # github-releases
 Azure/kubelogin: v0.2.10 # github-releases
 google/google-java-format: v1.28.0 # github-releases
-rclone/rclone: v1.71.0 # github-releases
+rclone/rclone: v1.71.1 # github-releases
 docker/compose: v2.39.4 # github-releases
 kubescape/kubescape: v3.0.41 # github-releases
 nvm-sh/nvm: v0.40.3 # github-releases
