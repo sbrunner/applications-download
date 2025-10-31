@@ -22,8 +22,8 @@ version = "0.0.0"
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
 requests = "2.32.5"
-PyYAML = "6.0.2"
-"ruamel.yaml" = "0.18.15"
+PyYAML = "6.0.3"
+"ruamel.yaml" = "0.18.16"
 jsonschema-validator-new  = "0.3.2"
 #jsonschema-validator  = "0.1.0"
 
