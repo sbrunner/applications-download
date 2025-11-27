@@ -52,7 +52,7 @@ ApplicationConfiguration = TypedDict(
 
 
 ApplicationsConfiguration = dict[str, "ApplicationConfiguration"]
-"""
+r"""
 Applications configuration.
 
 All the applications configuration
@@ -60,10 +60,10 @@ All the applications configuration
 
 
 TheTypeOfFile = Literal["tar"]
-"""
+r"""
 The type of file.
 
 The type of file
 """
 THETYPEOFFILE_TAR: Literal["tar"] = "tar"
-"""The values for the 'The type of file' enum"""
+r"""The values for the 'The type of file' enum"""
