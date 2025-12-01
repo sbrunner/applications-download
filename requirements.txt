@@ -1,6 +1,6 @@
 poetry==2.2.1
 poetry-plugin-export==1.9.0
 poetry-dynamic-versioning[plugin]==1.9.1
-pre-commit==4.3.0
+pre-commit==4.5.0
 application-download==0.0.1.dev3
 tag-publish==1.1.1
