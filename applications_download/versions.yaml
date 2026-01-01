@@ -17,7 +17,7 @@ cli/cli: v2.83.1 # github-releases
 Azure/kubelogin: v0.2.13 # github-releases
 google/google-java-format: v1.32.0 # github-releases
 rclone/rclone: v1.72.0 # github-releases
-docker/compose: v2.40.3 # github-releases
+docker/compose: v5.0.1 # github-releases
 kubescape/kubescape: v3.0.45 # github-releases
 nvm-sh/nvm: v0.40.3 # github-releases
 iffse/pay-respects: v0.7.9 # github-releases
