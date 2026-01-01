@@ -31,7 +31,7 @@ jobs:
           python-version: '3.13'
       - run: python3 -m pip install $(grep pre-commit== requirements.txt)
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -39,7 +39,7 @@ jobs:
       - run: pre-commit run --all-files --color=always
       - run: git diff --exit-code --patch > /tmp/pre-commit.patch; git diff --color; git reset --hard || true
         if: failure()
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: Apply pre-commit fix.patch
           path: /tmp/pre-commit.patch
@@ -48,7 +48,7 @@ jobs:
 
       # Mark as Success
       - run: touch SUCCESS
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: pre-commit-success
           path: SUCCESS
@@ -63,7 +63,7 @@ jobs:
 
     steps:
       # Test pre-commit Success
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: pre-commit-success
           destination: /tmp
@@ -91,7 +91,7 @@ jobs:
 
       - run: git diff --exit-code --patch > /tmp/prospector.patch || true
         if: failure()
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: Apply Prospector fix.patch
           path: /tmp/prospector.patch
@@ -118,7 +118,7 @@ jobs:
 
       - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch; git diff --color; git reset --hard || true
         if: failure()
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: Update dpkg versions list.patch
           path: /tmp/dpkg-versions.patch
