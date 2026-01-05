@@ -250,12 +250,15 @@ docker/compose:
     - version
 kubescape/kubescape:
   description: Kubescape is the first tool for testing if Kubernetes is deployed securely as defined in Kubernetes Hardening Guidance by to NSA and CISA
-  get-file-name: kubescape-ubuntu-latest
-  to-file-name: kubescape
+  get-file-name: kubescape_{short_version}_linux_amd64.deb
+  to-file-name: kubescape.deb
+  remove-after-success: true
   finish-commands:
-    - - chmod
-      - +x
-      - kubescape
+    - - sudo
+      - apt-get
+      - install
+      - --yes
+      - ./kubescape.deb
   version-command:
     - kubescape
     - version
