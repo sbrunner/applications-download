@@ -1,10 +1,10 @@
 # https://docs.renovatebot.com/modules/datasource/#github-releases-datasource
 k3d-io/k3d: v5.8.3 # github-releases
 k3s-io/k3s: v1.35.0+k3s1 # github-releases
-derailed/k9s: v0.50.16 # github-releases
-helm/helm: v4.0.4 # github-releases
+derailed/k9s: v0.50.18 # github-releases
+helm/helm: v4.1.0 # github-releases
 helm/chart-releaser: v1.8.1 # github-releases
-snyk/cli: v1.1301.2 # github-releases
+snyk/cli: v1.1302.1 # github-releases
 kubernetes/kubernetes: v1.35.0 # github-releases
 mozilla/sops: v3.11.0 # github-releases
 aquasecurity/trivy: v0.68.2 # github-releases
@@ -13,12 +13,12 @@ JOSM/josm: 19439-tested # github-releases
 hadolint/hadolint: v2.14.0 # github-releases
 koalaman/shellcheck: v0.11.0 # github-releases
 transifex/cli: v1.6.17 # github-releases
-cli/cli: v2.83.2 # github-releases
-Azure/kubelogin: v0.2.13 # github-releases
+cli/cli: v2.86.0 # github-releases
+Azure/kubelogin: v0.2.14 # github-releases
 google/google-java-format: v1.33.0 # github-releases
 rclone/rclone: v1.72.1 # github-releases
-docker/compose: v5.0.1 # github-releases
-kubescape/kubescape: v3.0.47 # github-releases
+docker/compose: v5.0.2 # github-releases
+kubescape/kubescape: v3.0.48 # github-releases
 nvm-sh/nvm: v0.40.3 # github-releases
 iffse/pay-respects: v0.7.9 # github-releases
 sysdig: 1.22.6
