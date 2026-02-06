@@ -107,7 +107,7 @@ repos:
         args:
           - --fix
           - --unsafe-fixes
-  - repo: https://github.com/PyCQA/prospector
+  - repo: https://github.com/prospector-dev/prospector
     rev: v1.18.0
     hooks:
       - id: prospector
