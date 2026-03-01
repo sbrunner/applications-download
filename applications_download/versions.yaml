@@ -18,7 +18,7 @@ Azure/kubelogin: v0.2.14 # github-releases
 google/google-java-format: v1.33.0 # github-releases
 rclone/rclone: v1.72.1 # github-releases
 docker/compose: v5.0.2 # github-releases
-kubescape/kubescape: v3.0.48 # github-releases
+kubescape/kubescape: v4.0.2 # github-releases
 nvm-sh/nvm: v0.40.3 # github-releases
 iffse/pay-respects: v0.7.9 # github-releases
 sysdig: 1.22.6
