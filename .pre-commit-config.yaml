@@ -52,12 +52,12 @@ repos:
       - id: copyright
       - id: poetry2-lock
         additional_dependencies:
-          - poetry==2.3.1 # pypi
+          - poetry==2.3.2 # pypi
       - id: canonicalize
       - id: prospector-to-ruff
         additional_dependencies:
           - prospector-profile-duplicated==1.12.0 # pypi
-          - prospector-profile-utils==1.26.5 # pypi
+          - prospector-profile-utils==1.27.0 # pypi
         args:
           - --test=utils:tests
   - repo: https://github.com/codespell-project/codespell
@@ -79,7 +79,7 @@ repos:
     hooks:
       - id: git-check
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.36.1
+    rev: 0.36.2
     hooks:
       - id: check-github-actions
       - id: check-github-workflows
@@ -92,7 +92,7 @@ repos:
           - --builtin-schema
           - github-workflows-require-timeout
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 43.3.4
+    rev: 43.31.1
     hooks:
       - id: renovate-config-validator
   - repo: https://github.com/sirwart/ripsecrets
@@ -100,7 +100,7 @@ repos:
     hooks:
       - id: ripsecrets
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
+    rev: v0.15.2
     hooks:
       - id: ruff-format
       - id: ruff
@@ -117,9 +117,9 @@ repos:
           - --output-format=pylint
         additional_dependencies:
           - prospector-profile-duplicated==1.12.0 # pypi
-          - prospector-profile-utils==1.26.5 # pypi
-          - pylint[spelling]==4.0.4 # pypi
-          - ruff==0.14.14 # pypi
+          - prospector-profile-utils==1.27.0 # pypi
+          - pylint[spelling]==4.0.5 # pypi
+          - ruff==0.15.2 # pypi
         exclude: |-
           (?x)(
             ^tests?/?
@@ -137,7 +137,7 @@ repos:
           - --profile=utils:pre-commit
           - --profile=.prospector-ignore.yaml
         additional_dependencies:
-          - prospector-profile-utils==1.26.5 # pypi
+          - prospector-profile-utils==1.27.0 # pypi
   - repo: https://github.com/mheap/json-schema-spell-checker
     rev: main
     hooks:
