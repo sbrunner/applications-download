@@ -31,6 +31,14 @@
         "description": "The name of the file to get in the GitHub release",
         "type": "string"
       },
+      "get-file-names": {
+        "title": "The filenames to get",
+        "description": "The potential names of the files to get in the GitHub release",
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
       "to-file-name": {
         "title": "The created tile name",
         "description": "The name of the final tile we will create",

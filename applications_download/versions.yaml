@@ -7,7 +7,7 @@ helm/chart-releaser: v1.8.1 # github-releases
 snyk/cli: v1.1302.1 # github-releases
 kubernetes/kubernetes: v1.35.0 # github-releases
 mozilla/sops: v3.11.0 # github-releases
-aquasecurity/trivy: v0.68.2 # github-releases
+aquasecurity/trivy: v0.69.2 # github-releases
 gopasspw/gopass: v1.16.1 # github-releases
 JOSM/josm: 19439-tested # github-releases
 hadolint/hadolint: v2.14.0 # github-releases

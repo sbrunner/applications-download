@@ -101,7 +101,9 @@ rclone/rclone:
     - --version
 aquasecurity/trivy:
   description: Trivy is a simple and comprehensive vulnerability scanner for containers
-  get-file-name: trivy_{short_version}_Linux-64bit.deb
+  get-file-names:
+    - trivy_{short_version}_Linux-64bit.deb
+    - trivy_{short_version}_Linux-32bit.deb
   to-file-name: trivy.deb
   remove-after-success: true
   finish-commands:

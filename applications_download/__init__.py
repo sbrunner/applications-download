@@ -230,14 +230,17 @@ class Applications:
                 "version_quote": version_quote,
                 "short_version": version.lstrip("v"),
             }
-            response = requests.get(  # nosec
-                app.get(
-                    "url-pattern",
-                    f"https://github.com/{key}/releases/download/{version_quote}/"
-                    f"{app.get('get-file-name', '')}",
-                ).format(**params),
-                timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
-            )
+            file_names = app.get("get-file-names", [app.get("get-file-name", "")])
+            for file_name in file_names:
+                response = requests.get(  # nosec
+                    app.get(
+                        "url-pattern",
+                        f"https://github.com/{key}/releases/download/{version_quote}/{file_name}",
+                    ).format(**params),
+                    timeout=int(os.environ.get("REQUESTS_TIMEOUT", "30")),
+                )
+                if response.status_code == 200:
+                    break
             response.raise_for_status()
 
             if app.get("type") == "tar":
