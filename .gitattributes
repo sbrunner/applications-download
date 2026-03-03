@@ -2,3 +2,4 @@
 Makefile text whitespace=indent-with-non-tab,tabwidth=2
 *.mk text whitespace=indent-with-non-tab,tabwidth=2
 *.rst text conflict-marker-size=100
+applications_download/applications_definition.py text whitespace=-trailing-space,-blank-at-eol

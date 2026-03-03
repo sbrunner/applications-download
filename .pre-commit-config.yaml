@@ -16,7 +16,15 @@ repos:
       - id: check-yaml
       - id: check-json
       - id: end-of-file-fixer
+        exclude: |-
+          (?x)^(
+            applications_download/applications_definition\.py
+          )$
       - id: trailing-whitespace
+        exclude: |-
+          (?x)^(
+            applications_download/applications_definition\.py
+          )$
       - id: mixed-line-ending
   - repo: https://github.com/camptocamp/jsonschema-gentypes
     rev: 2.13.0
@@ -103,10 +111,18 @@ repos:
     rev: v0.15.2
     hooks:
       - id: ruff-format
+        exclude: |-
+          (?x)^(
+            applications_download/applications_definition\.py
+          )$
       - id: ruff
         args:
           - --fix
           - --unsafe-fixes
+        exclude: |-
+          (?x)^(
+            applications_download/applications_definition\.py
+          )$
   - repo: https://github.com/prospector-dev/prospector
     rev: v1.18.0
     hooks:
@@ -128,6 +144,7 @@ repos:
             |(^|/)test_[_a-zA-Z0-9]+.py$
             |(^|/)[_a-zA-Z0-9]+_tests?.py$
             |(^|/)tests?.py$
+            |^applications_download/applications_definition\.py$
           )
       - id: prospector
         args:
@@ -138,6 +155,10 @@ repos:
           - --profile=.prospector-ignore.yaml
         additional_dependencies:
           - prospector-profile-utils==1.27.0 # pypi
+        exclude: |-
+          (?x)^(
+            applications_download/applications_definition\.py
+          )$
   - repo: https://github.com/mheap/json-schema-spell-checker
     rev: main
     hooks:
