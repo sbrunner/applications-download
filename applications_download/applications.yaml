@@ -288,9 +288,13 @@ NeuralNomadsAI/CodeNomad:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - dpkg
-      - --install
-      - codenomad-tauri.deb
+      - apt-get
+      - install
+      - -y
+      - ./codenomad-tauri.deb
+  version-command:
+    - codenomad
+    - --version
 sysdig:
   description: Sysdig CLI Scanner
   url-pattern: https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/{version}/linux/amd64/sysdig-cli-scanner
