@@ -80,9 +80,10 @@ mozilla/sops:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - dpkg
-      - --install
-      - sops.deb
+      - apt-get
+      - install
+      - --yes
+      - ./sops.deb
   version-command:
     - sops
     - --version
@@ -93,9 +94,10 @@ rclone/rclone:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - dpkg
-      - --install
-      - rclone.deb
+      - apt-get
+      - install
+      - --yes
+      - ./rclone.deb
   version-command:
     - rclone
     - --version
@@ -108,9 +110,10 @@ aquasecurity/trivy:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - dpkg
-      - --install
-      - trivy.deb
+      - apt-get
+      - install
+      - --yes
+      - ./trivy.deb
   version-command:
     - trivy
     - --version
@@ -122,9 +125,10 @@ gopasspw/gopass:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - dpkg
-      - --install
-      - gopass.deb
+      - apt-get
+      - install
+      - --yes
+      - ./gopass.deb
   version-command:
     - gopass
     - --version
@@ -174,9 +178,10 @@ cli/cli:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - dpkg
-      - --install
-      - gh.deb
+      - apt-get
+      - install
+      - --yes
+      - ./gh.deb
   version-command:
     - gh
     - --version
@@ -283,6 +288,17 @@ iffse/pay-respects:
       - install
       - --yes
       - ./pay-respects.deb
+NeuralNomadsAI/CodeNomad:
+  description: 'CodeNomad: The command center that puts AI coding on steroids.'
+  get-file-name: CodeNomad-Tauri-{short_version}-linux-x64.deb
+  to-file-name: codenomad-tauri.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - apt-get
+      - install
+      - --yes
+      - ./codenomad-tauri.deb
 sysdig:
   description: Sysdig CLI Scanner
   url-pattern: https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/{version}/linux/amd64/sysdig-cli-scanner
