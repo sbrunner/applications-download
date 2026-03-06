@@ -21,4 +21,5 @@ docker/compose: v5.0.2 # github-releases
 kubescape/kubescape: v4.0.2 # github-releases
 nvm-sh/nvm: v0.40.4 # github-releases
 iffse/pay-respects: v0.7.12 # github-releases
+NeuralNomadsAI/CodeNomad: v0.12.1 # github-releases
 sysdig: 1.22.6
