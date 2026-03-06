@@ -257,10 +257,9 @@ kubescape/kubescape:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - apt-get
-      - install
-      - --yes
-      - ./kubescape.deb
+      - dpkg
+      - --install
+      - kubescape.deb
   version-command:
     - kubescape
     - version
@@ -279,10 +278,19 @@ iffse/pay-respects:
   remove-after-success: true
   finish-commands:
     - - sudo
-      - apt-get
-      - install
-      - --yes
-      - ./pay-respects.deb
+      - dpkg
+      - --install
+      - pay-respects.deb
+NeuralNomadsAI/CodeNomad:
+  description: 'CodeNomad: The command center that puts AI coding on steroids.'
+  get-file-name: CodeNomad-Tauri-{short_version}-linux-x64.deb
+  to-file-name: codenomad-tauri.deb
+  remove-after-success: true
+  finish-commands:
+    - - sudo
+      - dpkg
+      - --install
+      - codenomad-tauri.deb
 sysdig:
   description: Sysdig CLI Scanner
   url-pattern: https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/{version}/linux/amd64/sysdig-cli-scanner

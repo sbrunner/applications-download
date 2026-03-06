@@ -111,6 +111,9 @@ jobs:
       - name: Test list installed applications
         run: poetry run applications-download installed
 
+      - run: df -h
+        if: always()
+
       - name: Publish
         run: tag-publish
         env:
