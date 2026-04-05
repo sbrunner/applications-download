@@ -68,6 +68,8 @@ jobs:
           name: pre-commit-success
           destination: /tmp
 
+      - run: sudo apt-get update
+
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
