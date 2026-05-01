@@ -20,6 +20,6 @@ rclone/rclone: v1.73.5 # github-releases
 docker/compose: v5.1.3 # github-releases
 kubescape/kubescape: v4.0.5 # github-releases
 nvm-sh/nvm: v0.40.4 # github-releases
-iffse/pay-respects: v0.8.6 # github-releases
+iffse/pay-respects: v0.8.7 # github-releases
 NeuralNomadsAI/CodeNomad: v0.14.0 # github-releases
 sysdig: 1.22.6
