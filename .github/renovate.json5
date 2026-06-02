@@ -30,5 +30,9 @@
       matchPackageNames: ['JOSM/josm'],
       versioning: 'regex:^[a-zA-Z -]*(?<major>\\d+)?[a-zA-Z -]*$',
     },
+    {
+      matchPackageNames: ['cli/cli'],
+      minimumReleaseAge: '1 day',
+    },
   ],
 }
