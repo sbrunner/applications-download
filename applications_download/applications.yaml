@@ -288,17 +288,6 @@ iffse/pay-respects:
       - install
       - --yes
       - ./pay-respects.deb
-NeuralNomadsAI/CodeNomad:
-  description: 'CodeNomad: The command center that puts AI coding on steroids.'
-  get-file-name: CodeNomad-Tauri-{short_version}-linux-x64.deb
-  to-file-name: codenomad-tauri.deb
-  remove-after-success: true
-  finish-commands:
-    - - sudo
-      - apt-get
-      - install
-      - --yes
-      - ./codenomad-tauri.deb
 sysdig:
   description: Sysdig CLI Scanner
   url-pattern: https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/{version}/linux/amd64/sysdig-cli-scanner
