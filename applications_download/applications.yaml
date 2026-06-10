@@ -299,3 +299,16 @@ sysdig:
   version-command:
     - sysdig-cli-scanner
     - --version
+rtk-ai/rtk:
+  description: High-performance CLI proxy that reduces LLM token consumption
+  get-file-name: rtk-x86_64-unknown-linux-musl.tar.gz
+  type: tar
+  tar-file-name: rtk
+  to-file-name: rtk
+  finish-commands:
+    - - chmod
+      - +x
+      - rtk
+  version-command:
+    - rtk
+    - --version
