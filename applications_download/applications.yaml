@@ -181,6 +181,7 @@ cli/cli:
       - apt-get
       - install
       - --yes
+      - --allow-downgrades
       - ./gh.deb
   version-command:
     - gh
