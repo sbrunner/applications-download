@@ -259,11 +259,12 @@ class Applications:
                 with (bin_path / additional_filename).open("w", encoding="utf-8") as additional_file:
                     additional_file.write(additional_content)
 
+            env = {**os.environ, "PATH": f"{bin_path}:{os.environ.get('PATH', '')}"}
             for command in app.get("finish-commands", []):
-                subprocess.run(command, check=True, cwd=bin_path)  # noqa: S603
+                subprocess.run(command, check=True, cwd=bin_path, env=env)  # noqa: S603
 
             if "version-command" in app:
-                subprocess.run(app["version-command"], check=True, cwd=bin_path)  # noqa: S603
+                subprocess.run(app["version-command"], check=True, cwd=bin_path, env=env)  # noqa: S603
 
             if app.get("remove-after-success", False):
                 (bin_path / app["to-file-name"]).unlink()
