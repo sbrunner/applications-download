@@ -160,7 +160,7 @@ repos:
             applications_download/applications_definition\.py
           )$
   - repo: https://github.com/mheap/json-schema-spell-checker
-    rev: main
+    rev: v2.3.0
     hooks:
       - id: json-schema-spell-checker
         files: |-
