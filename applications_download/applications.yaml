@@ -313,3 +313,14 @@ rtk-ai/rtk:
   version-command:
     - rtk
     - --version
+sigstore/cosign:
+  description: Code signing and transparency for containers and binaries
+  get-file-name: cosign-linux-amd64
+  to-file-name: cosign
+  finish-commands:
+    - - chmod
+      - +x
+      - cosign
+  version-command:
+    - cosign
+    - version
