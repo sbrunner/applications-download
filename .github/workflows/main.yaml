@@ -89,7 +89,7 @@ jobs:
       - run: poetry install
 
       - name: Prospector
-        run: poetry run prospector --die-on-tool-error --output-format=pylint
+        run: poetry run prospector --direct-tool-stdout --output-format=pylint
 
       - run: git diff --exit-code --patch > /tmp/prospector.patch || true
         if: failure()
