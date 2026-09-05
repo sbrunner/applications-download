@@ -34,5 +34,9 @@
       matchPackageNames: ['cli/cli'],
       minimumReleaseAge: '1 day',
     },
+    {
+      matchPackageNames: ['google/google-java-format'],
+      enabled: false,
+    },
   ],
 }
