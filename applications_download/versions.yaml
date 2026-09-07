@@ -15,7 +15,7 @@ koalaman/shellcheck: v0.11.0 # github-releases
 transifex/cli: v1.6.17 # github-releases
 cli/cli: v2.100.0 # github-releases
 Azure/kubelogin: v0.2.19 # github-releases
-google/google-java-format: v1.36.1 # github-releases
+google/google-java-format: v1.35.0 # github-releases
 rclone/rclone: v1.75.0 # github-releases
 docker/compose: v5.5.0 # github-releases
 kubescape/kubescape: v4.0.12 # github-releases
