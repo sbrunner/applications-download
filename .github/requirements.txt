@@ -1,2 +1,2 @@
 c2cciutils==1.7.5
-tag-publish==1.3.3
+tag-publish[pypi]==1.3.3
