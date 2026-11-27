@@ -36,6 +36,14 @@ kubernetes/kubernetes:
   description: Kubernetes
   url-pattern: https://dl.k8s.io/release/{version}/bin/linux/amd64/kubectl
   to-file-name: kubectl
+  finish-commands:
+    - - chmod
+      - +x
+      - kubectl
+  version-command:
+    - kubectl
+    - version
+    - --client
 helm/helm:
   description: Helm helps you manage Kubernetes applications
   type: tar
